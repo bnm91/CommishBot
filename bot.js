@@ -5,7 +5,7 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /@Nixon/;
+      botRegex = /ohTrees.gif/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -21,7 +21,7 @@ function respond() {
 function postMessage() {
   var botResponse, options, body, botReq;
 
-  botResponse = 'Fuck off, I\'m busy'
+  botResponse = ' '
 
   options = {
     hostname: 'api.groupme.com',
@@ -31,7 +31,8 @@ function postMessage() {
 
   body = {
     "bot_id" : botID,
-    "text" : botResponse
+    "text" : botResponse,
+	\"attachments\" : [    {      \"type\"  : \"image\",      \"url\"   : \"https://i.groupme.com/400x225.gif.e49932d8232744b9b9b6f9da19d69fe7.large\"    }  ]
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
