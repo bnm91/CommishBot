@@ -32,7 +32,7 @@ function postMessage() {
   body = {
     "bot_id" : botID,
     "text" : botResponse,
-	"attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/400x225.gif.e49932d8232744b9b9b6f9da19d69fe7.large"    }  ]
+	"attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/320x240.gif.bf49bb9422e94f9b9548d70b5e5eef11.large"    }  ]
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
