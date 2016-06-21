@@ -9,6 +9,7 @@ function respond() {
 	botRegexI = /^I!$/;
 	botRegexThat = /^I BELIEVE THAT!$/;
 	botRegexWill = /^I BELIEVE THAT WE WILL!$/;
+	botRegexWin = /^I BELIEVE THAT WE WILL WIN!$/;
 	botRegexUSA = /USA/;
 
   if(request.text && botRegexI.test(request.text)) {
@@ -25,6 +26,11 @@ function respond() {
   else if(request.text && botRegexWill.test(request.text)) {
     this.res.writeHead(200);
     postMessage("WILL");
+    this.res.end();
+  }
+   else if(request.text && botRegexWill.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage("WIN");
     this.res.end();
   }
   else if(request.text && botRegexUSA.test(request.text)){
@@ -53,6 +59,10 @@ function postMessage(key) {
 	botResponse = 'I BELIEVE THAT WE';
   }
   else if (key == 'WILL')
+  {
+	botResponse = 'I BELIEVE THAT WE WILL WIN';
+  }
+  else if (key == 'WIN')
   {
 	botResponse = 'I BELIEVE THAT WE WILL WIN';
   }
