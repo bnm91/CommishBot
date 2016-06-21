@@ -5,23 +5,50 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /notarapper.gif/;
+      //botRegex = /notarapper.gif/;
+	botRegexI = /I/;
+	botRegexThat = /I BELIEVE THAT/;
+	botRegexWin = /I BELIEVE THAT WE WILL WIN/;
 
-  if(request.text && botRegex.test(request.text)) {
+  if(request.text && botRegexI.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage('I');
     this.res.end();
-  } else {
+  } 
+  else if(request.text && botRegexWe.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage('THAT');
+    this.res.end();
+  }
+  else if(request.text && botRegexWin.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage('WIN');
+    this.res.end();
+  }
+  else {
     console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
 }
 
-function postMessage() {
+function postMessage(key) {
   var botResponse, options, body, botReq;
 
-  botResponse = ' '
+  //botResponse = 'I BELIEVE '
+  
+  if(key == 'I')
+  {
+	botResponse = 'I BELIEVE';
+  }
+  else if (key == 'THAT')
+  {
+	botResponse = 'I BELIEVE THAT WE';
+  }
+  else if (key == 'WIN')
+  {
+	botResponse = 'I BELIEVE THAT WE WILL WIN');
+  }
 
   options = {
     hostname: 'api.groupme.com',
@@ -29,10 +56,18 @@ function postMessage() {
     method: 'POST'
   };
 
+/*
+
   body = {
     "bot_id" : botID,
     "text" : botResponse,
 	"attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/320x240.gif.bf49bb9422e94f9b9548d70b5e5eef11.large"    }  ]
+  };
+*/
+
+  body = {
+    "bot_id" : botID,
+    "text" : botResponse
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
