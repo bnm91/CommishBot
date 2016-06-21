@@ -7,8 +7,8 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       //botRegex = /notarapper.gif/;
 	botRegexI = /^I$/;
-	botRegexThat = /I BELIEVE THAT/;
-	botRegexWin = /I BELIEVE THAT WE WILL WIN/;
+	botRegexThat = /^I BELIEVE THAT$/;
+	botRegexWin = /^I BELIEVE THAT WE WILL WIN$/;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
