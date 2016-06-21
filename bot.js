@@ -46,7 +46,7 @@ function postMessage(key) {
   {
 	botResponse = 'I BELIEVE THAT WE';
   }
-  else if (key == 'WIN')
+  else if (key == 'WILL')
   {
 	botResponse = 'I BELIEVE THAT WE WILL WIN';
   }
