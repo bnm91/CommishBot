@@ -11,6 +11,7 @@ function respond() {
 	botRegexWill = /^I BELIEVE THAT WE WILL!$/;
 	botRegexWin = /^I BELIEVE THAT WE WILL WIN!$/;
 	botRegexUSA = /USA/;
+	botRegexAvatar = /^!avatar$/;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
@@ -38,6 +39,11 @@ function respond() {
     postMessage("USA");
     this.res.end();
   }
+   else if(request.text && botRegexAvatar.test(request.text)){
+	this.res.writeHead(200);
+    postMessage("AVATAR");
+    this.res.end();
+  }
   else {
     console.log("don't care");
     this.res.writeHead(200);
@@ -50,27 +56,45 @@ function postMessage(key) {
 
   //botResponse = ' '
   
-  if(key == 'I')
+  if(key == 'AVATAR')
   {
-	botResponse = 'I BELIEVE';
+	botResponse = ' ';
+	body = {
+		"bot_id" : botID,
+		"text" : botResponse,
+		"attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/3535x5100.jpeg.85095c1e90e448df925f77c4b9992958"    }  ]
+	};
   }
-  else if (key == 'THAT')
+  else
   {
-	botResponse = 'I BELIEVE THAT WE';
-  }
-  else if (key == 'WILL')
-  {
-	botResponse = 'I BELIEVE THAT WE WILL WIN';
-  }
-  else if (key == 'WIN')
-  {
-	botResponse = 'I BELIEVE THAT WE WILL WIN';
-  }
-  else if (key == 'USA')
-  {
-	botResponse = 'U-S-A! U-S-A!';
-  }
-
+	  if(key == 'I')
+	  {
+		botResponse = 'I BELIEVE';
+	  }
+	  else if (key == 'THAT')
+	  {
+		botResponse = 'I BELIEVE THAT WE';
+	  }
+	  else if (key == 'WILL')
+	  {
+		botResponse = 'I BELIEVE THAT WE WILL WIN';
+	  }
+	  else if (key == 'WIN')
+	  {
+		botResponse = 'I BELIEVE THAT WE WILL WIN';
+	  }
+	  else if (key == 'USA')
+	  {
+		botResponse = 'U-S-A! U-S-A!';
+	  }
+	  
+	  body = {
+		"bot_id" : botID,
+		"text" : botResponse
+		};
+	}
+	
+	
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
@@ -86,10 +110,7 @@ function postMessage(key) {
   };
 */
 
-  body = {
-    "bot_id" : botID,
-    "text" : botResponse
-  };
+
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
