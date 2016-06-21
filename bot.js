@@ -28,7 +28,7 @@ function respond() {
     postMessage("WILL");
     this.res.end();
   }
-   else if(request.text && botRegexWill.test(request.text)) {
+   else if(request.text && botRegexWin.test(request.text)) {
     this.res.writeHead(200);
     postMessage("WIN");
     this.res.end();
