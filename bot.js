@@ -6,7 +6,7 @@ var botID = process.env.BOT_ID;
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       //botRegex = /notarapper.gif/;
-	botRegexI = /I/;
+	botRegexI = /^I$/;
 	botRegexThat = /I BELIEVE THAT/;
 	botRegexWin = /I BELIEVE THAT WE WILL WIN/;
 
@@ -36,7 +36,7 @@ function respond() {
 function postMessage(key) {
   var botResponse, options, body, botReq;
 
-  //botResponse = 'I BELIEVE '
+  //botResponse = ' '
   
   if(key == 'I')
   {
