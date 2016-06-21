@@ -11,18 +11,19 @@ function respond() {
 	botRegexWin = /I BELIEVE THAT WE WILL WIN/;
 
   if(request.text && botRegexI.test(request.text)) {
+	console.log("I BELIEVE")
     this.res.writeHead(200);
-    postMessage('I');
+    postMessage("I");
     this.res.end();
   } 
   else if(request.text && botRegexWe.test(request.text)) {
     this.res.writeHead(200);
-    postMessage('THAT');
+    postMessage("THAT");
     this.res.end();
   }
   else if(request.text && botRegexWin.test(request.text)) {
     this.res.writeHead(200);
-    postMessage('WIN');
+    postMessage("WIN");
     this.res.end();
   }
   else {
@@ -47,7 +48,7 @@ function postMessage(key) {
   }
   else if (key == 'WIN')
   {
-	botResponse = 'I BELIEVE THAT WE WILL WIN');
+	botResponse = 'I BELIEVE THAT WE WILL WIN';
   }
 
   options = {
