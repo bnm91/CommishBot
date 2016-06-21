@@ -16,7 +16,7 @@ function respond() {
     postMessage("I");
     this.res.end();
   } 
-  else if(request.text && botRegexWe.test(request.text)) {
+  else if(request.text && botRegexThat.test(request.text)) {
     this.res.writeHead(200);
     postMessage("THAT");
     this.res.end();
