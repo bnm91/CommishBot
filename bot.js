@@ -8,7 +8,7 @@ function respond() {
       //botRegex = /notarapper.gif/;
 	botRegexI = /^I$/;
 	botRegexThat = /^I BELIEVE THAT$/;
-	botRegexWin = /^I BELIEVE THAT WE WILL WIN$/;
+	botRegexWin = /^I BELIEVE THAT WE WILL$/;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
@@ -21,9 +21,9 @@ function respond() {
     postMessage("THAT");
     this.res.end();
   }
-  else if(request.text && botRegexWin.test(request.text)) {
+  else if(request.text && botRegexWill.test(request.text)) {
     this.res.writeHead(200);
-    postMessage("WIN");
+    postMessage("WILL");
     this.res.end();
   }
   else {
