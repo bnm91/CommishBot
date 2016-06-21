@@ -6,9 +6,9 @@ var botID = process.env.BOT_ID;
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       //botRegex = /notarapper.gif/;
-	botRegexI = /^I$/;
-	botRegexThat = /^I BELIEVE THAT$/;
-	botRegexWill = /^I BELIEVE THAT WE WILL$/;
+	botRegexI = /^I!$/;
+	botRegexThat = /^I BELIEVE THAT!$/;
+	botRegexWill = /^I BELIEVE THAT WE WILL!$/;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
