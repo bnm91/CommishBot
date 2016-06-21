@@ -8,7 +8,7 @@ function respond() {
       //botRegex = /notarapper.gif/;
 	botRegexI = /^I$/;
 	botRegexThat = /^I BELIEVE THAT$/;
-	botRegexWin = /^I BELIEVE THAT WE WILL$/;
+	botRegexWill = /^I BELIEVE THAT WE WILL$/;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
