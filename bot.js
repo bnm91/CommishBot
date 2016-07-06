@@ -12,6 +12,7 @@ function respond() {
 	botRegexWin = /^I BELIEVE THAT WE WILL WIN!$/;
 	botRegexUSA = /USA/;
 	botRegexAvatar = /^!avatar$/;
+	botRegexRonaldo = /ronaldo/;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
@@ -42,6 +43,11 @@ function respond() {
    else if(request.text && botRegexAvatar.test(request.text)){
 	this.res.writeHead(200);
     postMessage("AVATAR");
+    this.res.end();
+  }
+  else if(request.text && botRegexAvatar.test(request.text)){
+	this.res.writeHead(200);
+    postMessage("RONALDO");
     this.res.end();
   }
   else {
@@ -86,6 +92,10 @@ function postMessage(key) {
 	  else if (key == 'USA')
 	  {
 		botResponse = 'U-S-A! U-S-A!';
+	  }
+	  else if (key == 'RONALDO')
+	  {
+		botResponse = 'Fuck Ronaldo';
 	  }
 	  
 	  body = {
