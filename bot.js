@@ -45,7 +45,7 @@ function respond() {
     postMessage("AVATAR");
     this.res.end();
   }
-  else if(request.text && botRegexAvatar.test(request.text)){
+  else if(request.text && botRegexRonaldo.test(request.text)){
 	this.res.writeHead(200);
     postMessage("RONALDO");
     this.res.end();
