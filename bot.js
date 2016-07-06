@@ -12,7 +12,7 @@ function respond() {
 	botRegexWin = /^I BELIEVE THAT WE WILL WIN!$/;
 	botRegexUSA = /USA/;
 	botRegexAvatar = /^!avatar$/;
-	botRegexRonaldo = /ronaldo/;
+	botRegexRonaldo = /ronaldo/i;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
