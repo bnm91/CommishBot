@@ -6,13 +6,14 @@ var botID = process.env.BOT_ID;
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       //botRegex = /notarapper.gif/;
+	botRegexAll = /!all/;
+	/*
 	botRegexI = /^I!$/;
 	botRegexThat = /^I BELIEVE THAT!$/;
 	botRegexWill = /^I BELIEVE THAT WE WILL!$/;
 	botRegexWin = /^I BELIEVE THAT WE WILL WIN!$/;
 	botRegexUSA = /USA/;
 	botRegexAvatar = /^!avatar$/;
-	botRegexRonaldo = /ronaldo/i;
 
   if(request.text && botRegexI.test(request.text)) {
 	console.log("I BELIEVE")
@@ -45,10 +46,12 @@ function respond() {
     postMessage("AVATAR");
     this.res.end();
   }
-  else if(request.text && botRegexRonaldo.test(request.text)){
+  */
+  if(request.text && botRegexAll.test(request.text)) {
+	console.log("tag all");
 	this.res.writeHead(200);
-    postMessage("RONALDO");
-    this.res.end();
+	postMessage("tag all");
+	this.res.end();
   }
   else {
     console.log("don't care");
@@ -69,6 +72,15 @@ function postMessage(key) {
 		"bot_id" : botID,
 		"text" : botResponse,
 		"attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/3535x5100.jpeg.85095c1e90e448df925f77c4b9992958"    }  ]
+	};
+  }
+  else if (key == 'tag all'){
+	botResponse = '@all';
+	body = {
+		"bot_id" : botID,
+		"text" : botResponse,
+		"attachments": [	{"loci": [ [0,4],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],	"type": "mentions",	"user_ids": ["11119940","7048172","11119925","11172454","14504480","11153362","10224713","11153363","11172453","14504481","11119938","14504482","9781134","778332"]	}]
+		//"attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/3535x5100.jpeg.85095c1e90e448df925f77c4b9992958"    }  ]
 	};
   }
   else
@@ -93,10 +105,7 @@ function postMessage(key) {
 	  {
 		botResponse = 'U-S-A! U-S-A!';
 	  }
-	  else if (key == 'RONALDO')
-	  {
-		botResponse = 'Fuck Ronaldo';
-	  }
+
 	  
 	  body = {
 		"bot_id" : botID,
