@@ -63,13 +63,11 @@ function postMessage(key) {
       botResponse = 'U-S-A! U-S-A!';
     }
 
-
     body = {
       "bot_id" : botID,
       "text" : botResponse
     };
   }
-
 
   options = {
     hostname: 'api.groupme.com',
@@ -95,6 +93,5 @@ function postMessage(key) {
   });
   botReq.end(JSON.stringify(body));
 }
-
 
 exports.respond = respond;
