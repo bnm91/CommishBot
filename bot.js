@@ -5,48 +5,7 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-  //botRegex = /notarapper.gif/;
   botRegexAll = /!all/;
-  /*
-     botRegexI = /^I!$/;
-     botRegexThat = /^I BELIEVE THAT!$/;
-     botRegexWill = /^I BELIEVE THAT WE WILL!$/;
-     botRegexWin = /^I BELIEVE THAT WE WILL WIN!$/;
-     botRegexUSA = /USA/;
-     botRegexAvatar = /^!avatar$/;
-
-     if(request.text && botRegexI.test(request.text)) {
-     console.log("I BELIEVE")
-     this.res.writeHead(200);
-     postMessage("I");
-     this.res.end();
-     }
-     else if(request.text && botRegexThat.test(request.text)) {
-     this.res.writeHead(200);
-     postMessage("THAT");
-     this.res.end();
-     }
-     else if(request.text && botRegexWill.test(request.text)) {
-     this.res.writeHead(200);
-     postMessage("WILL");
-     this.res.end();
-     }
-     else if(request.text && botRegexWin.test(request.text)) {
-     this.res.writeHead(200);
-     postMessage("WIN");
-     this.res.end();
-     }
-     else if(request.text && botRegexUSA.test(request.text)){
-     this.res.writeHead(200);
-     postMessage("USA");
-     this.res.end();
-     }
-     else if(request.text && botRegexAvatar.test(request.text)){
-     this.res.writeHead(200);
-     postMessage("AVATAR");
-     this.res.end();
-     }
-     */
   if(request.text && botRegexAll.test(request.text)) {
     console.log("tag all");
     this.res.writeHead(200);
@@ -62,8 +21,6 @@ function respond() {
 
 function postMessage(key) {
   var botResponse, options, body, botReq;
-
-  //botResponse = ' '
 
   if(key == 'AVATAR')
   {
@@ -119,17 +76,6 @@ function postMessage(key) {
     path: '/v3/bots/post',
     method: 'POST'
   };
-
-  /*
-
-     body = {
-     "bot_id" : botID,
-     "text" : botResponse,
-     "attachments" : [    {      "type"  : "image",      "url"   : "https://i.groupme.com/320x240.gif.bf49bb9422e94f9b9548d70b5e5eef11.large"    }  ]
-     };
-     */
-
-
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
