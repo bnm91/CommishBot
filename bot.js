@@ -1,7 +1,7 @@
 var HTTPS = require('https');
 var cached = require('./cached');
 
-var botID = 'e1b9d18e10fb81bc90e4e968c6';
+var botID = process.env.BOT_ID;
 
 
 function respond() {
