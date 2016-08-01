@@ -51,6 +51,12 @@ function run(command) {
       'bot_id': botID,
       'text': flip
     }
+  }else if (command == '!roll'){
+    var roll = Math.floor((Math.random() * 100) + 1);
+    response = {
+      'bot_id': botID,
+      'text': roll
+    }
   }
 
   return response;
