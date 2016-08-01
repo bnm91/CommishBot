@@ -45,18 +45,6 @@ function run(command) {
       'bot_id': botID,
       'text': 'pong'
     }
-  } else if (command == '!flip') {
-    var flip = (Math.floor(Math.random() * 2) === 0) ? 'heads' : 'tails';
-    response = {
-      'bot_id': botID,
-      'text': flip
-    }
-  }else if (command == '!roll'){
-    var roll = Math.floor((Math.random() * 100) + 1).toString();
-    response = {
-      'bot_id': botID,
-      'text': roll
-    }
   }
 
   return response;
