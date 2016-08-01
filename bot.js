@@ -1,7 +1,7 @@
 var HTTPS = require('https');
 var cached = require('./cached');
 
-const botID = 'e898d148370087f718e4b90e1e';
+const botID = '835323b1dd1485af5366cbe60e';
 
 
 function respond() {
