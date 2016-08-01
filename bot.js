@@ -1,10 +1,10 @@
-const botID = process.env.BOT_ID;
+//const botID = process.env.BOT_ID;
 
 var HTTPS = require('https');
 var cached = require('./cached');
 
-
-
+var botKey = require('./botKey.js');
+var botID = botKey();
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]);
