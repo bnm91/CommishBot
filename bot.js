@@ -52,7 +52,7 @@ function run(command) {
       'text': flip
     }
   }else if (command == '!roll'){
-    var roll = Math.floor((Math.random() * 100) + 1);
+    var roll = Math.floor((Math.random() * 100) + 1).toString();
     response = {
       'bot_id': botID,
       'text': roll
