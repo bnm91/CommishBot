@@ -5,7 +5,7 @@ director    = require('director');
 cool        = require('cool-ascii-faces');
 bot         = require('./bot.js');
 
-var botID = require('./botKey.js');
+
 router = new director.http.Router({
   '/' : {
     post: bot.respond,
