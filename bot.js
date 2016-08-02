@@ -7,13 +7,13 @@ var botID = process.env.BOT_ID;
 function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   message = request.text;
-  response = process(message);
+  response = handle(message);
   if (response) {
     send(response, this);
   }
 }
 
-function process(message) {
+function handle(message) {
   if (message.charAt(0) == '!') {
     return run(message);
   }
