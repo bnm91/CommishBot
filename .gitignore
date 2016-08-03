@@ -1,2 +1,7 @@
 node_modules
+
+# local heroku environment variables 
 .env
+
+# emacs backups
+*~
