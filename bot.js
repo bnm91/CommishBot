@@ -9,10 +9,9 @@ var botID = process.env.BOT_ID;
  */
 function respond() {
   var request = JSON.parse(this.req.chunks[0]);
-  console.log(request);
   message = request.text;
   if (message.charAt(0) == '!') {
-    response = run_(message);
+    response = run(message);
     send(response, this);
   }
 }
@@ -21,9 +20,9 @@ function respond() {
  * Processes a message and returns a json response object.
  * @private
  */
-function run_(command) {
+function run(command) {
   var response = null;
-  if (command.startsWith('!pin')) {
+  if (command.startsWith('!pin ')) {
     return pins.run(command);
   }
   
@@ -69,6 +68,7 @@ function run_(command) {
 
 /**
  * Send request to GroupMe API to post message on bot's behalf
+ * @private
  */
 function send(response, responder) {
   responder.res.writeHead(200);
