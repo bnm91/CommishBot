@@ -1,27 +1,31 @@
 var HTTPS = require('https');
 var cached = require('./cached');
+var pins = require('./pins');
 
 var botID = process.env.BOT_ID;
 
-
+/**
+ * Extracts request message and responds if necessary.
+ */
 function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   message = request.text;
-  response = handle(message);
-  if (response) {
+  if (message.charAt(0) == '!') {
+    response = run(message);
     send(response, this);
   }
 }
 
-function handle(message) {
-  if (message.charAt(0) == '!') {
-    return run(message);
-  }
-  return null;
-}
-
+/**
+ * Processes a message and returns a json response object.
+ * @private
+ */
 function run(command) {
-  var response = null
+  var response = null;
+  if (command.startsWith('!pin ')) {
+    return pins.run(command);
+  }
+  
   if (command == '!all') {
     userIds = [];
     for (i = 0; i < cached.members.length; i++) {
@@ -62,6 +66,10 @@ function run(command) {
   return response;
 }
 
+/**
+ * Send request to GroupMe API to post message on bot's behalf
+ * @private
+ */
 function send(response, responder) {
   responder.res.writeHead(200);
 
