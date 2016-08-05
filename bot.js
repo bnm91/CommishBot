@@ -22,7 +22,7 @@ function respond() {
  */
 function run(command) {
   var response = null;
-  if (command.lastIndexOf('!pin ') == 0) {
+  if (command.startsWith('!pin ')) {
     return pins.run(command);
   }
   
