@@ -11,7 +11,7 @@
     "pg": "6.0.3"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "4.4.7"
   },
   "repository": {
     "type": "git",
