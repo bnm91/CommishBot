@@ -1,4 +1,6 @@
 var HTTPS = require('https');
+var Promise = require('promise');
+
 var cached = require('./cached');
 var pins = require('./pins');
 
@@ -18,11 +20,12 @@ function respond() {
 
 /**
  * Processes a message and returns a json response object.
+ * @return {Promise<Object>} promise containing response object
  * @private
  */
 function run(command) {
   var response = null;
-  if (command.startsWith('!pin ')) {
+  if (command.match(pins.matcher) != null) {
     return pins.run(command);
   }
   
@@ -55,7 +58,7 @@ function run(command) {
       'bot_id': botID,
       'text': flip
     }
-  }else if (command == '!roll'){
+  } else if (command == '!roll') {
     var roll = Math.floor((Math.random() * 100) + 1).toString();
     response = {
       'bot_id': botID,
@@ -63,14 +66,26 @@ function run(command) {
     }
   }
 
-  return response;
+  return Promise.resolve(response);
 }
 
 /**
  * Send request to GroupMe API to post message on bot's behalf
  * @private
  */
-function send(response, responder) {
+function send(responsePromise, responder) {
+  responsePromise.then(function(response) {
+    sendHttpRequest(response, responder);
+  }, function(error) {
+    response = {
+      'bot_id': botID,
+      'text': 'There was an error processing the request: ' +
+          JSON.stringify(error)
+    }
+  });
+}
+
+function sendHttpRequest(response, responder) {
   responder.res.writeHead(200);
 
   var options = {
