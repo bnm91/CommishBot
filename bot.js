@@ -21,11 +21,12 @@ function respond() {
  * @private
  */
 function run(command) {
+	console.log('run reached ' + command);
   var response = null;
   if (command.startsWith('!pin ')) {
     return pins.run(command);
   }
-  else if (command.startsWith('!data')){
+  else if (command.startsWith('!data ')){
 	return dbTest.run(command);
   }
   
