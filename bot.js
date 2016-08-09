@@ -13,6 +13,8 @@ function respond() {
   message = request.text;
   if (message.charAt(0) == '!') {
     response = run(message);
+	
+	console.log(response);
 	console.log('sending');
     send(response, this);
   }
