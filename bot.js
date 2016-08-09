@@ -12,6 +12,7 @@ function respond() {
   message = request.text;
   if (message.charAt(0) == '!') {
     response = run(message);
+	console.log('sending');
     send(response, this);
   }
 }
@@ -67,6 +68,7 @@ function run(command) {
     }
   }
 
+	console.log('response');
   return response;
 }
 
