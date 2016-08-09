@@ -14,21 +14,21 @@ function run(command) {
 
   var splitCommand = command.split(' ');
   if (command.trim() === '!pins') {
-  	// Command to list all pins
-  	return listPins();
+    // Command to list all pins
+    return listPins();
   } else if (splitCommand.length === 2) {
-  	// Command to show a pin's value
-  	return showPin(splitCommand[1].toLowerCase());
+    // Command to show a pin's value
+    return showPin(splitCommand[1].toLowerCase());
   } else if (splitCommand.length >= 3) {
-  	// Command to create a pin
-  	var content = splitCommand.slice(2).join(' ');
-  	return createPin(splitCommand[1], content);
+    // Command to create a pin
+    var content = splitCommand.slice(2).join(' ');
+    return createPin(splitCommand[1], content);
   }
 
   // Some parsing error occured.
   return produceImmediateResponse('Correct Usage:\n' +
       '!pins (list pins)\n!pin {name} (view pin)\n' +
-  	  '!pin {name} {content} (create pin)');
+      '!pin {name} {content} (create pin)');
 }
 
 
@@ -37,27 +37,27 @@ function run(command) {
  */
 function listPins() {
   return new Promise(function(resolve, reject) {
-  	try {
-  	  var boundCommands, client = new pg.Client(dbUrl);
-  	  client.connect();
-  	  var query = client.query('SELECT name FROM pins');
-  	  query.on('row', function(row, result) {
-  	  	result.addRow(row);
-  	  });
-  	  query.on('end', function(result) {
-  		  boundCommands = result.rows.map(function(currentValue) {
+    try {
+      var boundCommands, client = new pg.Client(dbUrl);
+      client.connect();
+      var query = client.query('SELECT name FROM pins');
+      query.on('row', function(row, result) {
+        result.addRow(row);
+      });
+      query.on('end', function(result) {
+        boundCommands = result.rows.map(function(currentValue) {
            return currentValue.name;
-  		  });
+        });
 
-  		  resolve(produceResponseObjectForText(
-  		    	'To view a pin use "!pin {name}"\nRegistered pin names are:\n' +
+        resolve(produceResponseObjectForText(
+            'To view a pin use "!pin {name}"\nRegistered pin names are:\n' +
                  boundCommands.join('\n')));
-  	  });
-  	  query.on('error', function(err) {
-  	  	resolve(produceResponseObjectForText('Error listing pins, go hassle Mike. ' + err));
-  	  });
-  	} catch (e) {
-  	  reject(e);
+      });
+      query.on('error', function(err) {
+        resolve(produceResponseObjectForText('Error listing pins, go hassle Mike. ' + err));
+      });
+    } catch (e) {
+      reject(e);
     }
   });
 }
@@ -67,36 +67,36 @@ function listPins() {
  * Shows a pin with a given name, otherwise give an appropriate error response.
  */
 function showPin(pinName) {
-	if (pinName.length > 20) {
-	  return produceImmediateResponse('Pin name must be shorter than 20 characters');
-	}
+  if (pinName.length > 20) {
+    return produceImmediateResponse('Pin name must be shorter than 20 characters');
+  }
 
-	return new Promise(function(resolve, reject) {
-	  try {
-	  	var client = new pg.Client(dbUrl);
-	  	client.connect();
-	  	var query = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
-	  	query.on('row', function(row, result) {
-	  		result.addRow(row);
-	  	});
-	  	query.on('end', function(result) {
-	  		if (result.rowCount === 0) {
-	  			resolve(produceResponseObjectForText('The pin "' + pinName + '" is not registered.'));
+  return new Promise(function(resolve, reject) {
+    try {
+      var client = new pg.Client(dbUrl);
+      client.connect();
+      var query = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
+      query.on('row', function(row, result) {
+        result.addRow(row);
+      });
+      query.on('end', function(result) {
+        if (result.rowCount === 0) {
+          resolve(produceResponseObjectForText('The pin "' + pinName + '" is not registered.'));
           return;
-	  		} else if (result.rowCount > 1) {
-	  			resolve(produceResponseObjectForText('Some shit has gone seriously awry. Take cover.'));
+        } else if (result.rowCount > 1) {
+          resolve(produceResponseObjectForText('Some shit has gone seriously awry. Take cover.'));
           return;
-	  		}
+        }
 
-	  		resolve(produceResponseObjectForText(pinName + ': ' + result.rows[0].content));
-	  	});
-	  	query.on('error', function(err) {
-	  		resolve(produceResponseObjectForText('Error showing pin content, go hassle Mike. ' + err));
-	  	});
-	  } catch (e) {
-	  	reject(e);
-	  }
-	});
+        resolve(produceResponseObjectForText(pinName + ': ' + result.rows[0].content));
+      });
+      query.on('error', function(err) {
+        resolve(produceResponseObjectForText('Error showing pin content, go hassle Mike. ' + err));
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
 
@@ -104,18 +104,18 @@ function showPin(pinName) {
  * Creates a pin if possible, or give an appropriate error response.
  */
 function createPin(pinName, pinContent) {
-	if (pinName.length > 20) {
-	  return produceImmediateResponse('Pin name must be shorter than 20 characters');
-	}
+  if (pinName.length > 20) {
+    return produceImmediateResponse('Pin name must be shorter than 20 characters');
+  }
 
-	if (pinContent.length > 300) {
-	  return produceImmediateResponse('Pin content must be shorter than 300 characters');
-	}
+  if (pinContent.length > 300) {
+    return produceImmediateResponse('Pin content must be shorter than 300 characters');
+  }
 
-	return new Promise(function(resolve, reject) {
-		try {
-	  	var client = new pg.Client(dbUrl);
-	  	client.connect();
+  return new Promise(function(resolve, reject) {
+    try {
+      var client = new pg.Client(dbUrl);
+      client.connect();
       var selectQuery = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
       selectQuery.on('row', function(row, result) {
         result.addRow(row);
@@ -140,11 +140,11 @@ function createPin(pinName, pinContent) {
       selectQuery.on('error', function(error) {
         resolve(produceResponseObjectForText('Error creating pin, go hassle Mike. ' + err));
       })
-	  	
-	  } catch (e) {
-	  	reject(e);
-	  }
-	});
+      
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
 
@@ -152,7 +152,7 @@ function createPin(pinName, pinContent) {
  * Produce an immediate response with some text.
  */
 function produceImmediateResponse(response) {
-	return Promise.resolve(produceResponseObjectForText(response));
+  return Promise.resolve(produceResponseObjectForText(response));
 }
 
 
@@ -160,10 +160,10 @@ function produceImmediateResponse(response) {
  * Produce a simple text response object.
  */
  function produceResponseObjectForText(text) {
-	return {
+  return {
       'bot_id' : botID,
       'text' : text
-	}; 	
+  };  
  }
 
 exports.run = run;
