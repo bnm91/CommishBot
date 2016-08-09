@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var cached = require('./cached');
 var pins = require('./pins');
+var dbTest = require('./dbTest');
 
 var botID = process.env.BOT_ID;
 
