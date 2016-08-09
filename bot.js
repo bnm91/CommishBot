@@ -29,7 +29,6 @@ function run(command) {
 	console.log('run reached ' + command);
   var response = null;
   if (command.startsWith('!pin ')) {
-	console.logging('pins.run');
     return pins.run(command);
   }
   else if (command.startsWith('!data ')){
