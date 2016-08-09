@@ -25,6 +25,9 @@ function run(command) {
   if (command.startsWith('!pin ')) {
     return pins.run(command);
   }
+  else if (command.startsWith('!data')){
+	return dbTest.run(command);
+  }
   
   if (command == '!all') {
     userIds = [];
