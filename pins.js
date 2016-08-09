@@ -1,4 +1,4 @@
-var pg = require('pg');
+//var pg = require('pg');
 
 var botID = process.env.BOT_ID;
 
