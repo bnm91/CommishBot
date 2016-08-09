@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "director": "",
-    "pg": "6.0.3"
+    "pg": "6.0.3",
+    "promise": "7.1.1"
   },
   "engines": {
     "node": "0.10.x"
