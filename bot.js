@@ -9,7 +9,7 @@ var botID = process.env.BOT_ID;
  * Extracts request message and responds if necessary.
  */
 function respond() {
-	console.log(typeof pins.run);
+	//console.log(typeof pins.run);
   var request = JSON.parse(this.req.chunks[0]);
   message = request.text;
   if (message.charAt(0) == '!') {
@@ -26,7 +26,7 @@ function respond() {
  * @private
  */
 function run(command) {
-	console.log('run reached ' + command);
+	//console.log('run reached ' + command);
   var response = null;
   if (command.startsWith('!pin ')) {
     return pins.run(command);

@@ -7,22 +7,35 @@ var botID = process.env.BOT_ID;
  */
 function run(command) {
   // TODO(mah68): Implement this
+	var textOut;
 	console.log('dbTest called with command: ' + command);
-	pg.defaults.ssl = true;
-	pg.connect(process.env.DATABASE_URL, function(err, client) {
-	  if (err) throw err;
-	  console.log('Connected to postgres! Getting schemas...');
+	
+	var client = new pg.Client(process.env.DATABASE_URL);
 
-	  client
-		.query('SELECT table_schema,table_name FROM information_schema.tables;')
-		.on('row', function(row) {
-		  console.log(JSON.stringify(row));
-		});
-	});
+	client.connect();
+	
+      var query = client.query('SELECT * FROM test_table WHERE test_table_key=$1', [1]);
+      query.on('row', function(row, result) {
+        result.addRow(row);
+      });
+      query.on('end', function(result) {
+        if (result.rowCount === 0) {
+          textOut = 'no rows';
+          return;
+        } else if (result.rowCount > 1) {
+          textOut = 'too many rows';
+          return;
+        }
+
+        textOut = 'data test: '+ result.rows[0].content;
+      });
+      query.on('error', function(err) {
+        textOut = 'err';
+      });
   
   return {
     'bot_id': botID,
-    'text': '~~ UNDER DEVELOPMENT ~~'
+    'text': textOut
   }
 }
 
