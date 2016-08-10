@@ -29,7 +29,12 @@ function run(command) {
     return pins.run(command);
   }
   
-  if (command == '!all') {
+  if (command.startsWith('!all')) {
+    var messageToAll = '';
+    if (command.length > 4 && command.startsWith('!all ')) {
+      messageToAll = command.slice(4);
+    }
+
     userIds = [];
     for (i = 0; i < cached.members.length; i++) {
       member = cached.members[i];
@@ -38,10 +43,10 @@ function run(command) {
 
     response = {
       'bot_id' : botID,
-      'text' : '@all',
+      'text' : '@all' + messageToAll,
       'attachments': [
         {
-          'loci': [[0,4],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+          'loci': Array(userIds.length).fill([0, 4]),
           'type': 'mentions',
           'user_ids': userIds
         }

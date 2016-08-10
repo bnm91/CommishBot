@@ -3,7 +3,7 @@ var Promise = require('promise');
 
 var botID = process.env.BOT_ID;
 var dbUrl = process.env.DATABASE_URL;
-var matcher = /!pin(s|\s.*|)/;
+var matcher = /!pin(s|\s.*)/;
 
 /**
  * Processes a !pin command and produces a JSON object response
