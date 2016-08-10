@@ -1,4 +1,5 @@
 var HTTPS = require('https');
+var insultGenerator = require('insultgenerator');
 var Promise = require('promise');
 
 var cached = require('./cached');
@@ -13,7 +14,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   message = request.text;
   if (message.charAt(0) == '!') {
-    response = run(message);
+    response = run(request);
     send(response, this);
   }
 }
@@ -23,7 +24,8 @@ function respond() {
  * @return {Promise<Object>} promise containing response object
  * @private
  */
-function run(command) {
+function run(fullRequest) {
+  var command = fullRequest.text;
   var response = null;
   if (command.match(pins.matcher) != null) {
     return pins.run(command);
@@ -52,6 +54,26 @@ function run(command) {
         }
       ]
     };
+  } else if (command.startsWith('!fuckyou')) {
+    // TODO actually use user mentions
+    var usersToInsult = [];
+    if (fullRequest.attachments !== undefined) {
+      for (i = 0; i < fullRequest.attachments.length; i++) {
+        if (fullRequest.attachments[i].type === 'mentions') {
+          usersToInsult == fullRequest.attachments[i].user_ids;
+          break;
+        }
+      }
+    }
+
+    return new Promise(function(resolve, reject) {
+      insultGenerator(function(insult) {
+        resolve({
+          'bot_id' : botID,
+          'text' : insult
+        });
+      });
+    })
   } else if (command == '!ping') {
     response = {
       'bot_id': botID,
