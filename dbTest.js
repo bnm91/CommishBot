@@ -9,6 +9,7 @@ function run(command) {
   // TODO(mah68): Implement this
 	var textOut;
 	console.log('dbTest called with command: ' + command);
+	pg.defaults.ssl = true;
 	
 	var client = new pg.Client(process.env.DATABASE_URL);
 
