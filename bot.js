@@ -55,6 +55,7 @@ function run(fullRequest) {
       ]
     };
   } else if (command.startsWith('!fuckyou')) {
+    console.log(fullRequest);
     if (fullRequest.attachments !== undefined) {
       var usersToInsult = [];
       for (i = 0; i < fullRequest.attachments.length; i++) {
