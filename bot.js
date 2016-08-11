@@ -58,12 +58,16 @@ function run(fullRequest) {
     console.log(fullRequest);
     if (fullRequest.attachments !== undefined) {
       var usersToInsult = [];
+      console.log('looping through attachments');
       for (i = 0; i < fullRequest.attachments.length; i++) {
+        console.log(fullRequest.attachments[i]);
         if (fullRequest.attachments[i].type === 'mentions') {
-          usersToInsult == fullRequest.attachments[i].user_ids;
+          console.log(fullRequest.attachments[i].user_ids);
+          usersToInsult = fullRequest.attachments[i].user_ids;
           break;
         }
       }
+      console.log('usersToInsult', usersToInsult);
       if (usersToInsult.length > 0) {
         var attachments = createUserMentions(usersToInsult);
         return new Promise(function(resolve, reject) {
