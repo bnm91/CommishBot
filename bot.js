@@ -56,6 +56,8 @@ function run(fullRequest) {
     };
   } else if (command.startsWith('!fuckyou')) {
     console.log(fullRequest);
+    console.log(fullRequest.attachments);
+    console.log(typeof(fullRequest.attachments));
     if (fullRequest.attachments !== undefined) {
       var usersToInsult = [];
       console.log('looping through attachments');
@@ -70,6 +72,9 @@ function run(fullRequest) {
       console.log('usersToInsult', usersToInsult);
       if (usersToInsult.length > 0) {
         var attachments = createUserMentions(usersToInsult);
+        console.log('attachments to send');
+        console.log(attachments[0]);
+        console.log(attachments[1]);
         return new Promise(function(resolve, reject) {
           insultGenerator(function(insult) {
             resolve({
