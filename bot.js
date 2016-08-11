@@ -1,4 +1,5 @@
 var HTTPS = require('https');
+var insultGenerator = require('insultgenerator');
 var Promise = require('promise');
 
 var cached = require('./cached');
@@ -13,7 +14,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   message = request.text;
   if (message.charAt(0) == '!') {
-    response = run(message);
+    response = run(request);
     send(response, this);
   }
 }
@@ -23,7 +24,8 @@ function respond() {
  * @return {Promise<Object>} promise containing response object
  * @private
  */
-function run(command) {
+function run(fullRequest) {
+  var command = fullRequest.text;
   var response = null;
   if (command.match(pins.matcher) != null) {
     return pins.run(command);
@@ -52,6 +54,37 @@ function run(command) {
         }
       ]
     };
+  } else if (command.startsWith('!fuckyou')) {
+    if (fullRequest.attachments !== undefined) {
+      var usersToInsult = [];
+      for (i = 0; i < fullRequest.attachments.length; i++) {
+        if (fullRequest.attachments[i].type === 'mentions') {
+          usersToInsult = fullRequest.attachments[i].user_ids;
+          break;
+        }
+      }
+      if (usersToInsult.length > 0) {
+        var attachments = createUserMentions(usersToInsult);
+        return new Promise(function(resolve, reject) {
+          insultGenerator(function(insult) {
+            resolve({
+              'bot_id' : botID,
+              'text' : attachments[1] + ' ' + insult,
+              'attachments': [attachments[0]]
+            });
+          });
+        });
+      }
+    }
+
+    return new Promise(function(resolve, reject) {
+      insultGenerator(function(insult) {
+        resolve({
+          'bot_id' : botID,
+          'text' : insult
+        });
+      });
+    });
   } else if (command == '!ping') {
     response = {
       'bot_id': botID,
@@ -75,11 +108,62 @@ function run(command) {
 }
 
 /**
+ * Provides all necessary data to mention a group of users at
+ * the beginning of a message.
+ * @param usersToMention an array of user ids
+ * @returns an Array with two elements:
+ *    1. The "mentions" attachment object
+ *    2. The text to prefix the message
+ * @private
+ */
+function createUserMentions(usersToMention) {
+  var membersMap = createMemberMap();
+  var mentionText = '';
+  var mentionAttachment = {
+      'loci': [],
+      'type': 'mentions',
+      'user_ids': []
+  };
+
+  var currentLoci = 0;
+  for (var i = 0; i < usersToMention.length; i++) {
+    var user = membersMap[usersToMention[i]];
+    if (user === undefined) {
+      // don't fail just because a user isn't recognised
+      console.log('User ' + usersToMention[i] + ' not recognised');
+      continue;
+    }
+
+    mentionText +=  '@' + user.nickname + ' ';
+    mentionAttachment.user_ids.push(usersToMention[i]);
+    mentionAttachment.loci.push(
+      [currentLoci, currentLoci + user.nickname.length + 1 /* length of @ sign */]);
+
+    currentLoci += user.nickname.length + 2 /* length of space + @ sign */;
+  }
+
+  return [mentionAttachment, mentionText.trim()];
+}
+
+/**
+ * Creates a map of userIds to member objects
+ * @private
+ */
+function createMemberMap() {
+  var membersMap = {};
+  for (var member in cached.members) {
+    membersMap[cached.members[member].userId] = cached.members[member];
+  }
+  return membersMap;
+}
+
+/**
  * Send request to GroupMe API to post message on bot's behalf
  * @private
  */
 function send(responsePromise, responder) {
   responsePromise.then(function(response) {
+    console.log('about to send message to groupme: ' + JSON.stringify(response));
     sendHttpRequest(response, responder);
   }, function(error) {
     response = {

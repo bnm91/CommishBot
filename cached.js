@@ -54,7 +54,7 @@ var members = [
     id: "30022130",
   },
   {
-    user_id: "17421009",
+    userId: "17421009",
     nickname: "Alex Chapla",
     image_url: "https://i.groupme.com/1276x1280.jpeg.e64d12708f6c0131c3c222000a438073",
     id: "170479185",

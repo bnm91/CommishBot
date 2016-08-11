@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "director": "",
+    "insultgenerator": "0.0.2",
     "pg": "6.0.3",
     "promise": "7.1.1"
   },
