@@ -173,7 +173,7 @@ function createMemberMap() {
  */
 function send(responsePromise, responder) {
   responsePromise.then(function(response) {
-    console.log('about to send message to groupme', response);
+    console.log('about to send message to groupme: ' + JSON.stringify(response));
     sendHttpRequest(response, responder);
   }, function(error) {
     response = {
