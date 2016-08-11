@@ -55,14 +55,25 @@ function run(fullRequest) {
       ]
     };
   } else if (command.startsWith('!fuckyou')) {
-    // TODO actually use user mentions
-    var usersToInsult = [];
     if (fullRequest.attachments !== undefined) {
+      var usersToInsult = [];
       for (i = 0; i < fullRequest.attachments.length; i++) {
         if (fullRequest.attachments[i].type === 'mentions') {
           usersToInsult == fullRequest.attachments[i].user_ids;
           break;
         }
+      }
+      if (usersToInsult.length > 0) {
+        var attachments = createUserMentions(usersToInsult);
+        return new Promise(function(resolve, reject) {
+          insultGenerator(function(insult) {
+            resolve({
+              'bot_id' : botID,
+              'text' : attachments[1] + ' ' + insult,
+              'attachments': [attachments[0]]
+            });
+          });
+        });
       }
     }
 
@@ -73,7 +84,7 @@ function run(fullRequest) {
           'text' : insult
         });
       });
-    })
+    });
   } else if (command == '!ping') {
     response = {
       'bot_id': botID,
@@ -94,6 +105,55 @@ function run(fullRequest) {
   }
 
   return Promise.resolve(response);
+}
+
+/**
+ * Provides all necessary data to mention a group of users at
+ * the beginning of a message.
+ * @param usersToMention an array of user ids
+ * @returns an Array with two elements:
+ *    1. The "mentions" attachment object
+ *    2. The text to prefix the message
+ * @private
+ */
+function createUserMentions(usersToMention) {
+  var membersMap = createMemberMap();
+  var mentionText = '';
+  var mentionAttachment = {
+      'loci': [],
+      'type': 'mentions',
+      'user_ids': []
+  };
+
+  var currentLoci = 0;
+  for (var userId in usersToMention) {
+    var user = membersMap[userId];
+    if (user === undefined) {
+      // don't fail just because a user isn't recognised
+      console.log('User ' + userId + ' not recognised');
+      continue;
+    }
+
+    mentionText +=  user.nickname + ' ';
+    mentionAttachment.user_ids.push(userId);
+    mentionAttachment.loci.push([currentLoci, currentLoci + user.nickname.length])
+
+    currentLoci += user.nickname.length + 1;
+  }
+
+  return [mentionAttachment, mentionText.trim()];
+}
+
+/**
+ * Creates a map of userIds to member objects
+ * @private
+ */
+function createMemberMap() {
+  var membersMap = {};
+  for (var member in cached.members) {
+    membersMap[cached.members[member].userId] = cached.members[member];
+  }
+  return membersMap;
 }
 
 /**
