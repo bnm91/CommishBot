@@ -55,26 +55,16 @@ function run(fullRequest) {
       ]
     };
   } else if (command.startsWith('!fuckyou')) {
-    console.log(fullRequest);
-    console.log(fullRequest.attachments);
-    console.log(typeof(fullRequest.attachments));
     if (fullRequest.attachments !== undefined) {
       var usersToInsult = [];
-      console.log('looping through attachments');
       for (i = 0; i < fullRequest.attachments.length; i++) {
-        console.log(fullRequest.attachments[i]);
         if (fullRequest.attachments[i].type === 'mentions') {
-          console.log(fullRequest.attachments[i].user_ids);
           usersToInsult = fullRequest.attachments[i].user_ids;
           break;
         }
       }
-      console.log('usersToInsult', usersToInsult);
       if (usersToInsult.length > 0) {
         var attachments = createUserMentions(usersToInsult);
-        console.log('attachments to send');
-        console.log(attachments[0]);
-        console.log(attachments[1]);
         return new Promise(function(resolve, reject) {
           insultGenerator(function(insult) {
             resolve({
@@ -128,7 +118,6 @@ function run(fullRequest) {
  */
 function createUserMentions(usersToMention) {
   var membersMap = createMemberMap();
-  console.log('member map', membersMap);
   var mentionText = '';
   var mentionAttachment = {
       'loci': [],
@@ -137,19 +126,20 @@ function createUserMentions(usersToMention) {
   };
 
   var currentLoci = 0;
-  for (var userId in usersToMention) {
-    var user = membersMap[userId];
+  for (var i = 0; i < usersToMention.length; i++) {
+    var user = membersMap[usersToMention[i]];
     if (user === undefined) {
       // don't fail just because a user isn't recognised
-      console.log('User ' + userId + ' not recognised');
+      console.log('User ' + usersToMention[i] + ' not recognised');
       continue;
     }
 
-    mentionText +=  user.nickname + ' ';
-    mentionAttachment.user_ids.push(userId);
-    mentionAttachment.loci.push([currentLoci, currentLoci + user.nickname.length])
+    mentionText +=  '@' + user.nickname + ' ';
+    mentionAttachment.user_ids.push(usersToMention[i]);
+    mentionAttachment.loci.push(
+      [currentLoci, currentLoci + user.nickname.length + 1 /* length of @ sign */]);
 
-    currentLoci += user.nickname.length + 1;
+    currentLoci += user.nickname.length + 2 /* length of space + @ sign */;
   }
 
   return [mentionAttachment, mentionText.trim()];
