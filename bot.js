@@ -128,6 +128,7 @@ function run(fullRequest) {
  */
 function createUserMentions(usersToMention) {
   var membersMap = createMemberMap();
+  console.log('member map', membersMap);
   var mentionText = '';
   var mentionAttachment = {
       'loci': [],
