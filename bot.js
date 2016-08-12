@@ -7,6 +7,12 @@ var pins = require('./pins');
 
 var botID = process.env.BOT_ID;
 
+//create api key at
+// http://www.fantasyfootballnerd.com/fantasy-football-api
+var ffID = process.env.FF_ID; //env config var heroku FFN API key
+var FFNerd = require('fantasy-football-nerd');
+var ff = new FFNerd({ api_key: ffID});
+
 /**
  * Extracts request message and responds if necessary.
  */
@@ -96,13 +102,56 @@ function run(fullRequest) {
       'bot_id': botID,
       'text': flip
     }
-  } else if (command == '!roll') {
-    var roll = Math.floor((Math.random() * 100) + 1).toString();
+  } else if (command.startsWith('!roll')) {
+    var dieSides = '';
+    if (command.length > 5 && command.startsWith('!roll ')) {
+      dieSides = command.slice(5).replace(/\s/g, '');
+      if(isNaN(dieSides)){
+        var roll = 'roll is not a number';
+      }else{
+        var roll = Math.floor((Math.random() * parseInt(dieSides)) + 1).toString();
+      }
+    }
     response = {
       'bot_id': botID,
       'text': roll
     }
-  }
+  } else if (command.startsWith('!bye')) {
+        var byeWeek;
+        var teams = "";
+        if(command.length > 4 && command.startsWith('!bye ')) {
+            byeWeek = command.slice(4).replace(/\s/g, '');
+            if(isNaN(byeWeek) || byeWeek < 4 || byeWeek > 13){
+              return new Promise(function(resolve, reject) {
+                resolve({
+                  'bot_id' : botID,
+                  'text' : 'Enter a valid bye week'
+                });
+              });          
+            } else{
+                var userByeWeek = parseInt(byeWeek);
+                var userPick = "Bye Week " + userByeWeek;
+                return new Promise(function(resolve, reject) {
+                  ff.byes(function(byes) {
+                      for (var key in byes) {
+                          if(key.toString() == userPick) {
+                            var obj = byes[key];
+                            var teamKey = 'team';
+                            for(var temp in obj){
+                              var teamStr = JSON.stringify(obj[temp]['team']).replace(/\"/g, "");
+                              teams += teamStr + ' ';
+                            }
+                          }
+                      }
+                      resolve({
+                        'bot_id' : botID,
+                        'text' : teams
+                      });       
+                  });
+                });                               
+            }
+        }      
+  } //new command starts here
 
   return Promise.resolve(response);
 }
