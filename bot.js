@@ -114,40 +114,40 @@ function run(fullRequest) {
       'text': roll
     }
   } else if (command.startsWith('!bye')) {
-        var byeWeek;
-        var teams = "";
-        if (command.length > 4 && command.startsWith('!bye ')) {
-            byeWeek = command.slice(4).replace(/\s/g, '');
-            if (isNaN(byeWeek) || byeWeek < 4 || byeWeek > 13) {
-              return new Promise(function(resolve, reject) {
-                resolve({
-                  'bot_id' : botID,
-                  'text' : 'Enter a valid bye week'
-                });
-              });
-            } else {
-                var userByeWeek = parseInt(byeWeek);
-                var userPick = "Bye Week " + userByeWeek;
-                return new Promise(function(resolve, reject) {
-                  ff.byes(function(byes) {
-                      for (var key in byes) {
-                          if (key.toString() == userPick) {
-                            var obj = byes[key];
-                            var teamKey = 'team';
-                            for (var temp in obj) {
-                              var teamStr = JSON.stringify(obj[temp]['team']).replace(/\"/g, "");
-                              teams += teamStr + ' ';
-                            }
-                          }
-                      }
-                      resolve({
-                        'bot_id' : botID,
-                        'text' : teams
-                      });
-                  });
-                });
+    var byeWeek;
+    var teams = "";
+    if (command.length > 4 && command.startsWith('!bye ')) {
+      byeWeek = command.slice(4).replace(/\s/g, '');
+      if (isNaN(byeWeek) || byeWeek < 4 || byeWeek > 13) {
+        return new Promise(function(resolve, reject) {
+          resolve({
+            'bot_id' : botID,
+            'text' : 'Enter a valid bye week'
+          });
+        });
+      } else {
+        var userByeWeek = parseInt(byeWeek);
+        var userPick = "Bye Week " + userByeWeek;
+        return new Promise(function(resolve, reject) {
+          ff.byes(function(byes) {
+            for (var key in byes) {
+              if (key.toString() == userPick) {
+                var obj = byes[key];
+                var teamKey = 'team';
+                for (var temp in obj) {
+                  var teamStr = JSON.stringify(obj[temp]['team']).replace(/\"/g, "");
+                  teams += teamStr + ' ';
+                }
+              }
             }
-        }
+            resolve({
+              'bot_id' : botID,
+              'text' : teams
+            });
+          });
+        });
+      }
+    }
   } //new command starts here
 
   return Promise.resolve(response);
