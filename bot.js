@@ -6,12 +6,9 @@ var cached = require('./cached');
 var pins = require('./pins');
 
 var botID = process.env.BOT_ID;
+var ffID = process.env.FF_ID;
 
-//create api key at
-// http://www.fantasyfootballnerd.com/fantasy-football-api
-var ffID = process.env.FF_ID; //env config var heroku FFN API key
-var FFNerd = require('fantasy-football-nerd');
-var ff = new FFNerd({ api_key: ffID});
+var ff = require('fantasy-football-nerd'){ api_key: ffId };
 
 /**
  * Extracts request message and responds if necessary.
@@ -36,7 +33,7 @@ function run(fullRequest) {
   if (command.match(pins.matcher) != null) {
     return pins.run(command);
   }
-  
+
   if (command.startsWith('!all')) {
     var messageToAll = '';
     if (command.length > 4 && command.startsWith('!all ')) {
@@ -106,9 +103,9 @@ function run(fullRequest) {
     var dieSides = '';
     if (command.length > 5 && command.startsWith('!roll ')) {
       dieSides = command.slice(5).replace(/\s/g, '');
-      if(isNaN(dieSides)){
+      if (isNaN(dieSides)) {
         var roll = 'roll is not a number';
-      }else{
+      } else{
         var roll = Math.floor((Math.random() * parseInt(dieSides)) + 1).toString();
       }
     }
@@ -119,25 +116,25 @@ function run(fullRequest) {
   } else if (command.startsWith('!bye')) {
         var byeWeek;
         var teams = "";
-        if(command.length > 4 && command.startsWith('!bye ')) {
+        if (command.length > 4 && command.startsWith('!bye ')) {
             byeWeek = command.slice(4).replace(/\s/g, '');
-            if(isNaN(byeWeek) || byeWeek < 4 || byeWeek > 13){
+            if (isNaN(byeWeek) || byeWeek < 4 || byeWeek > 13) {
               return new Promise(function(resolve, reject) {
                 resolve({
                   'bot_id' : botID,
                   'text' : 'Enter a valid bye week'
                 });
-              });          
-            } else{
+              });
+            } else {
                 var userByeWeek = parseInt(byeWeek);
                 var userPick = "Bye Week " + userByeWeek;
                 return new Promise(function(resolve, reject) {
                   ff.byes(function(byes) {
                       for (var key in byes) {
-                          if(key.toString() == userPick) {
+                          if (key.toString() == userPick) {
                             var obj = byes[key];
                             var teamKey = 'team';
-                            for(var temp in obj){
+                            for (var temp in obj) {
                               var teamStr = JSON.stringify(obj[temp]['team']).replace(/\"/g, "");
                               teams += teamStr + ' ';
                             }
@@ -146,11 +143,11 @@ function run(fullRequest) {
                       resolve({
                         'bot_id' : botID,
                         'text' : teams
-                      });       
+                      });
                   });
-                });                               
+                });
             }
-        }      
+        }
   } //new command starts here
 
   return Promise.resolve(response);
@@ -233,7 +230,7 @@ function sendHttpRequest(response, responder) {
   };
 
   var req = HTTPS.request(options, function(res) {
-    if(res.statusCode != 202) {
+    if (res.statusCode != 202) {
       console.log('rejecting bad status code ' + res.statusCode);
       console.log(res);
     }
