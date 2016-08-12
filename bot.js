@@ -96,8 +96,16 @@ function run(fullRequest) {
       'bot_id': botID,
       'text': flip
     }
-  } else if (command == '!roll') {
-    var roll = Math.floor((Math.random() * 100) + 1).toString();
+  } else if (command.startsWith('!roll')) {
+    var dieSides = '';
+    if (command.length > 5 && command.startsWith('!roll ')) {
+      dieSides = command.slice(5).replace(/\s/g, '');
+      if(isNaN(dieSides)){
+        var roll = 'roll is not a number';
+      }else{
+        var roll = Math.floor((Math.random() * parseInt(dieSides)) + 1).toString();
+      }
+    }
     response = {
       'bot_id': botID,
       'text': roll
