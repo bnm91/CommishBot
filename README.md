@@ -1,7 +1,31 @@
-# CommishBot
+# Commish Bot
 
-This is a modified version of the callback bot used in the https://dev.groupme.com/tutorials tutorial at https://github.com/groupme/bot-tutorial-nodejs
+Malevolently Robotting For Life.
 
-It uses groupme's API https://dev.groupme.com/docs/v3
+### Installation
 
-Groupme Tagging: There is no documentation on tagging but if you look at a message with tags you see it's just an attachment of type tag
+```bash
+make install
+```
+
+### Deploying
+
+```bash
+make deploy
+```
+
+### Testing
+
+There's a test bot set up. You can run
+
+```bash
+make configure-test
+```
+
+to get the remote set up. Then, assuming you're a collaborator you can run
+
+```bash
+make deploy-test
+```
+
+to get your current changes up on the test bot.
