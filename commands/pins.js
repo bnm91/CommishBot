@@ -1,7 +1,6 @@
 var pg = require('pg');
 var Promise = require('promise');
 
-var botID = process.env.BOT_ID;
 var dbUrl = process.env.DATABASE_URL;
 var matcher = /!pin(s|\s.*)/;
 
@@ -9,7 +8,7 @@ var matcher = /!pin(s|\s.*)/;
  * Processes a !pin command and produces a JSON object response
  * @returns {Promise<Object>} a promise of the response object.
  */
-function run(command) {
+function run(command, request) {
   pg.defaults.ssl = true;
 
   var splitCommand = command.split(' ');
@@ -140,7 +139,7 @@ function createPin(pinName, pinContent) {
       selectQuery.on('error', function(error) {
         resolve(produceResponseObjectForText('Error creating pin, go hassle Mike. ' + err));
       })
-      
+
     } catch (e) {
       reject(e);
     }
@@ -152,7 +151,7 @@ function createPin(pinName, pinContent) {
  * Produce an immediate response with some text.
  */
 function produceImmediateResponse(response) {
-  return Promise.resolve(produceResponseObjectForText(response));
+  return produceResponseObjectForText(response);
 }
 
 
@@ -161,9 +160,8 @@ function produceImmediateResponse(response) {
  */
  function produceResponseObjectForText(text) {
   return {
-      'bot_id' : botID,
       'text' : text
-  };  
+  };
  }
 
 exports.run = run;
