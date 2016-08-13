@@ -20,29 +20,22 @@ var commands = [all, bye, flip, insult, ping, pins, roll];
  * Extracts request message and responds if necessary.
  */
 function respond() {
-  var request = JSON.parse(this.req.chunks[0]);
-  message = request.text;
-  if (message.charAt(0) == '!') {
-    response = run(request);
-    send(response, this);
-  }
-}
+  const request = JSON.parse(this.req.chunks[0]);
+  const message = request.text;
 
-/**
- * Processes a message and returns a json response object.
- * @return {Promise<Object>} promise containing response object
- * @private
- */
-function run(request) {
-  var message = request.text;
   var response = null;
-  for (var i = 0; i < commands.length; i++) {
-    command = commands[i];
-    if (message.match(command.matcher) != null) {
-      response = command.run(message, request);
+
+  if (message.charAt(0) == '!') {
+    for (var i = 0; i < commands.length; i++) {
+      command = commands[i];
+      if (message.match(command.matcher) != null) {
+        response = command.run(message, request);
+        break;
+      }
     }
   }
-  return Promise.resolve(response);
+
+  send(Promise.resolve(response), this);
 }
 
 /**
@@ -64,31 +57,31 @@ function send(responsePromise, responder) {
 
 function sendHttpRequest(response, responder) {
   responder.res.writeHead(200);
+  if (response != null) {
+    response['bot_id'] = botId;
 
-  response['bot_id'] = botId;
+    var options = {
+      hostname: 'api.groupme.com',
+      path: '/v3/bots/post',
+      method: 'POST'
+    };
 
-  var options = {
-    hostname: 'api.groupme.com',
-    path: '/v3/bots/post',
-    method: 'POST'
-  };
+    var req = HTTPS.request(options, function(res) {
+      if (res.statusCode != 202) {
+        console.log('rejecting bad status code ' + res.statusCode);
+        console.log(res);
+      }
+    });
 
-  var req = HTTPS.request(options, function(res) {
-    if (res.statusCode != 202) {
-      console.log('rejecting bad status code ' + res.statusCode);
-      console.log(res);
-    }
-  });
+    req.on('error', function(err) {
+      console.log('error posting message '  + JSON.stringify(err));
+    });
+    req.on('timeout', function(err) {
+      console.log('timeout posting message '  + JSON.stringify(err));
+    });
 
-  req.on('error', function(err) {
-    console.log('error posting message '  + JSON.stringify(err));
-  });
-  req.on('timeout', function(err) {
-    console.log('timeout posting message '  + JSON.stringify(err));
-  });
-
-  req.end(JSON.stringify(response));
-
+    req.end(JSON.stringify(response));
+  }
   responder.res.end();
 }
 
