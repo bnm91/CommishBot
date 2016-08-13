@@ -1,0 +1,3 @@
+#!/bin/bash
+
+heroku $@ --remote "heroku-test"
