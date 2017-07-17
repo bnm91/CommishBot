@@ -43,7 +43,8 @@ function run(command, request) {
         newQuote += quotes[word][getRandomInt(quotes[word].length)];
       }
     }
-    
+    console.log("New Quote: " + newQuote);
+    console.log(quotes);
     return {
       'text': newQuote
     }
