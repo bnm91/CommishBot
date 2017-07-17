@@ -27,7 +27,7 @@ function getRandomInt(n) {
 function run(command, request) {
   var splitCommand = command.split(' ');
 
-  if (command.trim() === '!insult' && splitCommand.length >= 2) {
+  if (splitCommand.length >= 2) {
     var personToInsult = splitCommand.slice(1).join(' ');
     var template = templates[getRandomInt(templates.length)];
     var newQuote = "";
@@ -43,13 +43,10 @@ function run(command, request) {
         newQuote += quotes[word][getRandomInt(quotes[word].length)];
       }
     }
-    console.log("New Quote: " + newQuote);
-    console.log(quotes);
+    
     return {
       'text': newQuote
     }
-  } else {
-    console.log("Da fuq");
   }
 }
 
