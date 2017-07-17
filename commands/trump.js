@@ -20,6 +20,10 @@ var templates = [
   ["subjectnamesecond", "user_name",  "predicate", "insult3", "kicker",],
 ];
 
+function getRandomInt(n) {
+  return ((Math.floor(Math.random() * 1000000) + 1) % n)
+}
+
 function run(command, request) {
   var splitCommand = command.split(' ');
 
@@ -33,7 +37,7 @@ function run(command, request) {
       word = template[index];
 
       if (word == "user_name") {
-        newQuote += name
+        newQuote += personToInsult
         newQuote += ' '
       } else {
         newQuote += quotes[word][getRandomInt(quotes[word].length)];
@@ -44,10 +48,6 @@ function run(command, request) {
       'text': newQuote
     }
   }
-}
-
-function getRandomInt(n) {
-  return ((Math.floor(Math.random() * 1000000) + 1) % n)
 }
 
 exports.run = run;
