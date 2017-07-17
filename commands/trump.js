@@ -48,6 +48,8 @@ function run(command, request) {
     return {
       'text': newQuote
     }
+  } else {
+    console.log("Da fuq");
   }
 }
 
