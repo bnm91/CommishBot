@@ -4,14 +4,14 @@
 BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 install: ## First time install
-	git remote add heroku https://git.heroku.com/commish-test-bot.git
+	git remote add heroku https://git.heroku.com/nixon-groupme-test-bot.git
 	npm install
 
 deploy: ## Deploy to production
 	git push heroku
 
 configure-test: ## Configure test remote
-	git remote add heroku-test https://git.heroku.com/commish-test-bot.git
+	git remote add heroku-test https://git.heroku.com/commish-bot-test.git
 
 deploy-test: ## Deploy to staging
 	git push heroku-test $(BRANCH):master
