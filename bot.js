@@ -10,11 +10,12 @@ var insult = require('./commands/insult');
 var ping = require('./commands/ping');
 var pins = require('./commands/pins');
 var roll = require('./commands/roll');
+var trump = require('./commands/trump');
 
 var botId = process.env.BOT_ID;
 
 
-var commands = [all, bye, flip, insult, ping, pins, roll];
+var commands = [all, bye, flip, insult, ping, pins, roll, trump];
 
 /**
  * Extracts request message and responds if necessary.
