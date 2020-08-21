@@ -7,7 +7,7 @@ var members = [
   },
   {
     userId: "11119925",
-    nickname: "🏈",
+    nickname: "A. David Evans",
     imageUrl: "http://i.groupme.com/750x750.jpeg.2280c7f503944ec4b0bdc406313b795f",
     id: "30022123",
   },
@@ -49,7 +49,7 @@ var members = [
   },
   {
     userId: "11172453",
-    nickname: "🎅🏿",
+    nickname: "Forrest",
     imageUrl: "http://i.groupme.com/d7df8990a6d10130d2054217a8ed0f5b",
     id: "30022130",
   },
@@ -67,15 +67,15 @@ var members = [
   },
   {
     userId: "9781134",
-    nickname: "Mike",
+    nickname: "Mike Hoyle",
     imageUrl: "http://i.groupme.com/142a58306c910130507422000a8f8109",
     id: "52666153",
   },
   {
-    userId: "778332",
-    nickname: "Mr. 500",
-    imageUrl: "http://i.groupme.com/2080x1170.jpeg.be8b27127b3b409781d0fc2b0aab3810",
-    id: "55781401",
+    userId: "20997098",
+    nickname: "Jonathan Mims",
+    imageUrl: "https://i.groupme.com/720x1280.png.cb36a78ed3884173bbf1fdf0262ab80f",
+    id: "565626836",
   }
 ];
 
