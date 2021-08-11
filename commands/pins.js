@@ -8,7 +8,7 @@ var matcher = /!pin(s|\s.*)/;
  * Processes a !pin command and produces a JSON object response
  * @returns {Promise<Object>} a promise of the response object.
  */
-function run(command, request) {
+ function run(command, request) {
   pg.defaults.ssl = true;
 
   var splitCommand = command.split(' ');
@@ -18,10 +18,13 @@ function run(command, request) {
   } else if (splitCommand.length === 2) {
     // Command to show a pin's value
     return showPin(splitCommand[1].toLowerCase());
-  } else if (splitCommand.length >= 3) {
+  } else if (splitCommand.length >= 3 && splitCommand[1] === "create") {
     // Command to create a pin
-    var content = splitCommand.slice(2).join(' ');
-    return createPin(splitCommand[1], content);
+    var content = splitCommand.slice(3).join(' ');
+    return createPin(splitCommand[2], content);
+  } else if (splitCommand.length >= 3 && splitCommand[1] === "remove") {
+    // Command to remove a pin
+    return removePin(splitCommand[2].toLowerCase());
   }
 
   // Some parsing error occured.
@@ -97,6 +100,40 @@ function showPin(pinName) {
     }
   });
 }
+
+/**
+ * Remove a pin with a given name, otherwise give an appropriate error response.
+ */
+ function removePin(pinName) {
+  return new Promise(function(resolve, reject) {
+    try {
+      var client = new pg.Client(dbUrl);
+      client.connect();
+      var query = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
+      query.on('row', function(row, result) {
+        result.addRow(row);
+      });
+      query.on('end', function(result) {
+        if (result.rowCount === 0) {
+          resolve(produceResponseObjectForText('The pin "' + pinName + '" is not registered.'));
+          return;
+        } else if (result.rowCount > 1) {
+          resolve(produceResponseObjectForText('Some shit has gone seriously awry. Take cover.'));
+          return;
+        }
+        client.query('DELETE FROM pins WHERE name=$1', [pinName]);
+        resolve(produceResponseObjectForText(pinName + ' has been deleted'));
+      });
+      query.on('error', function(err) {
+        resolve(produceResponseObjectForText('Error showing pin content, go hassle Mike. ' + err));
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
 
 
 /**
