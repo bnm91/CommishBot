@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "director": "",
+    "director": "1.2.8",
     "fantasy-football-nerd": "^1.0.0",
     "insultgenerator": "0.0.2",
     "pg": "6.0.5",
