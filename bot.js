@@ -43,11 +43,11 @@ function respond(request) {
  * Send request to GroupMe API to post message on bot's behalf
  * @private
  */
-function send(responsePromise, responder) {
+function send(responsePromise) {
   console.log(responsePromise);
   responsePromise.then(function(response) {
-    console.log('about to send message to groupme: ' + JSON.stringify(response));
-    sendHttpRequest(response, responder);
+    console.log('about to send message to groupme!!: ' + JSON.stringify(response));
+    sendHttpRequest(response);
   }, function(error) {
     response = {
       'text': 'There was an error processing the request: ' +
@@ -56,9 +56,9 @@ function send(responsePromise, responder) {
   });
 }
 
-function sendHttpRequest(response, responder) {
-  responder.res.writeHead(200);
-  if (response != null) {
+function sendHttpRequest(response) {
+  console.log("botId: " + botId)
+  if (response !== null) {
     response['bot_id'] = botId;
     console.log("full response: " + JSON.stringify(response))
     var options = {
@@ -83,7 +83,6 @@ function sendHttpRequest(response, responder) {
 
     req.end(JSON.stringify(response));
   }
-  responder.res.end();
 }
 
 exports.respond = respond;
