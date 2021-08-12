@@ -60,7 +60,7 @@ function sendHttpRequest(response, responder) {
   responder.res.writeHead(200);
   if (response != null) {
     response['bot_id'] = botId;
-
+    console.log("full response: " + JSON.stringify(response))
     var options = {
       hostname: 'api.groupme.com',
       path: '/v3/bots/post',
