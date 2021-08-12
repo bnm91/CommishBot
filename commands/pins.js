@@ -42,7 +42,7 @@ function listPins() {
     try {
       var boundCommands, client = new pg.Client(dbUrl);
       client.connect();
-      var query = client.query('SELECT name FROM pins');
+      var query = client.query(new pg.Query('SELECT name FROM pins'));
       query.on('row', function(row, result) {
         result.addRow(row);
       });
@@ -78,7 +78,7 @@ function showPin(pinName) {
     try {
       var client = new pg.Client(dbUrl);
       client.connect();
-      var query = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
+      var query = client.query(new pg.Query('SELECT * FROM pins WHERE name=$1', [pinName]));
       query.on('row', function(row, result) {
         result.addRow(row);
       });
@@ -110,7 +110,7 @@ function showPin(pinName) {
     try {
       var client = new pg.Client(dbUrl);
       client.connect();
-      var query = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
+      var query = client.query(new pg.Query('SELECT * FROM pins WHERE name=$1', [pinName]));
       query.on('row', function(row, result) {
         result.addRow(row);
       });
@@ -122,7 +122,7 @@ function showPin(pinName) {
           resolve(produceResponseObjectForText('Some shit has gone seriously awry. Take cover.'));
           return;
         }
-        client.query('DELETE FROM pins WHERE name=$1', [pinName]);
+        client.query(new pg.Query('DELETE FROM pins WHERE name=$1', [pinName]));
         resolve(produceResponseObjectForText(pinName + ' has been deleted'));
       });
       query.on('error', function(err) {
@@ -153,15 +153,15 @@ function createPin(pinName, pinContent) {
     try {
       var client = new pg.Client(dbUrl);
       client.connect();
-      var selectQuery = client.query('SELECT * FROM pins WHERE name=$1', [pinName]);
+      var selectQuery = client.query(new pg.Query('SELECT * FROM pins WHERE name=$1', [pinName]));
       selectQuery.on('row', function(row, result) {
         result.addRow(row);
       });
       selectQuery.on('end', function(result) {
         if (result.rowCount === 0) {
-          var query = client.query(
+          var query = client.query(new pg.Query(
               'INSERT INTO pins (creator, name, content) VALUES (\'\', $1, $2);',
-              [pinName, pinContent]);
+              [pinName, pinContent]));
           query.on('end', function() {
             resolve(produceResponseObjectForText('Pin ' + pinName + ' created successfully!\n' +
                 'To view it type "!pin ' + pinName +'"'));
