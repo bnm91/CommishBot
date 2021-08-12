@@ -1,5 +1,4 @@
 var HTTPS = require('https');
-var Promise = require('promise');
 
 var cached = require('./cached');
 

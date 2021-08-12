@@ -1,5 +1,4 @@
 var pg = require('pg');
-var Promise = require('promise');
 
 var dbUrl = process.env.DATABASE_URL;
 var matcher = /!pin(s|\s.*)/;
@@ -38,6 +37,7 @@ var matcher = /!pin(s|\s.*)/;
  * Lists all registered pins
  */
 function listPins() {
+  console.log("WAT LIST")
   return new Promise(function(resolve, reject) {
     try {
       var boundCommands, client = new pg.Client(dbUrl);
@@ -69,6 +69,7 @@ function listPins() {
  * Shows a pin with a given name, otherwise give an appropriate error response.
  */
 function showPin(pinName) {
+  console.log("WAT showPin")
   if (pinName.length > 20) {
     return produceImmediateResponse('Pin name must be shorter than 20 characters');
   }
