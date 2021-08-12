@@ -20,7 +20,6 @@ var commands = [all, bye, flip, insult, ping, pins, roll, trump];
  * Extracts request message and responds if necessary.
  */
 function respond(request) {
-  // const request = JSON.parse(this.req.chunks[0]);
   const message = request.text;
 
   var response = null;
@@ -43,9 +42,8 @@ function respond(request) {
  * @private
  */
 function send(responsePromise) {
-  console.log(responsePromise);
   responsePromise.then(function(response) {
-    console.log('about to send message to groupme!!: ' + JSON.stringify(response));
+    console.log('about to send message to groupme: ' + JSON.stringify(response));
     sendHttpRequest(response);
   }, function(error) {
     response = {
@@ -56,10 +54,8 @@ function send(responsePromise) {
 }
 
 function sendHttpRequest(response) {
-  console.log("botId: " + botId)
   if (response !== null) {
     response['bot_id'] = botId;
-    console.log("full response: " + JSON.stringify(response))
     var options = {
       hostname: 'api.groupme.com',
       path: '/v3/bots/post',

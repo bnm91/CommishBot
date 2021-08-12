@@ -14,14 +14,17 @@ var matcher = /!pin(s|\s.*)/;
   if (command.trim() === '!pins') {
     // Command to list all pins
     return listPins();
-  } else if (splitCommand.length === 2) {
+  }
+  if (splitCommand.length === 2) {
     // Command to show a pin's value
     return showPin(splitCommand[1].toLowerCase());
-  } else if (splitCommand.length >= 3 && splitCommand[1] === "create") {
+  } 
+  if (splitCommand.length >= 3 && splitCommand[1] === "create") {
     // Command to create a pin
     var content = splitCommand.slice(3).join(' ');
     return createPin(splitCommand[2], content);
-  } else if (splitCommand.length >= 3 && splitCommand[1] === "remove") {
+  } 
+  if (splitCommand.length >= 3 && splitCommand[1] === "remove") {
     // Command to remove a pin
     return removePin(splitCommand[2].toLowerCase());
   }
@@ -37,7 +40,6 @@ var matcher = /!pin(s|\s.*)/;
  * Lists all registered pins
  */
 function listPins() {
-  console.log("WAT LIST")
   return new Promise(function(resolve, reject) {
     try {
       var boundCommands, client = new pg.Client(dbUrl);
@@ -69,7 +71,6 @@ function listPins() {
  * Shows a pin with a given name, otherwise give an appropriate error response.
  */
 function showPin(pinName) {
-  console.log("WAT showPin")
   if (pinName.length > 20) {
     return produceImmediateResponse('Pin name must be shorter than 20 characters');
   }
@@ -102,6 +103,7 @@ function showPin(pinName) {
   });
 }
 
+
 /**
  * Remove a pin with a given name, otherwise give an appropriate error response.
  */
@@ -133,8 +135,6 @@ function showPin(pinName) {
     }
   });
 }
-
-
 
 
 /**
