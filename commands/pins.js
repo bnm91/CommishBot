@@ -8,7 +8,7 @@ var matcher = /!pin(s|\s.*)/;
  * @returns {Promise<Object>} a promise of the response object.
  */
  function run(command, request) {
-  pg.defaults.ssl = true;
+  pg.defaults.ssl = { rejectUnauthorized: false };
 
   var splitCommand = command.split(' ');
   if (command.trim() === '!pins') {
