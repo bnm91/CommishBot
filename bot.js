@@ -1,5 +1,4 @@
 var HTTPS = require('https');
-var Promise = require('promise');
 
 var cached = require('./cached');
 
@@ -20,8 +19,7 @@ var commands = [all, bye, flip, insult, ping, pins, roll, trump];
 /**
  * Extracts request message and responds if necessary.
  */
-function respond() {
-  const request = JSON.parse(this.req.chunks[0]);
+function respond(request) {
   const message = request.text;
 
   var response = null;
@@ -43,11 +41,10 @@ function respond() {
  * Send request to GroupMe API to post message on bot's behalf
  * @private
  */
-function send(responsePromise, responder) {
-  console.log(responsePromise);
+function send(responsePromise) {
   responsePromise.then(function(response) {
     console.log('about to send message to groupme: ' + JSON.stringify(response));
-    sendHttpRequest(response, responder);
+    sendHttpRequest(response);
   }, function(error) {
     response = {
       'text': 'There was an error processing the request: ' +
@@ -56,11 +53,9 @@ function send(responsePromise, responder) {
   });
 }
 
-function sendHttpRequest(response, responder) {
-  responder.res.writeHead(200);
-  if (response != null) {
+function sendHttpRequest(response) {
+  if (response !== null) {
     response['bot_id'] = botId;
-
     var options = {
       hostname: 'api.groupme.com',
       path: '/v3/bots/post',
@@ -83,7 +78,6 @@ function sendHttpRequest(response, responder) {
 
     req.end(JSON.stringify(response));
   }
-  responder.res.end();
 }
 
 exports.respond = respond;

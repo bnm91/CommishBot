@@ -1,4 +1,3 @@
-var Promise = require('promise');
 var insultGenerator = require('insultgenerator');
 
 var cached = require('../cached');
