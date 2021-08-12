@@ -20,8 +20,8 @@ var commands = [all, bye, flip, insult, ping, pins, roll, trump];
 /**
  * Extracts request message and responds if necessary.
  */
-function respond() {
-  const request = JSON.parse(this.req.chunks[0]);
+function respond(request) {
+  // const request = JSON.parse(this.req.chunks[0]);
   const message = request.text;
 
   var response = null;
