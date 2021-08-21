@@ -5,16 +5,15 @@ var cached = require('./cached');
 var all = require('./commands/all');
 var bye = require('./commands/bye');
 var flip = require('./commands/flip');
-var insult = require('./commands/insult');
 var ping = require('./commands/ping');
 var pins = require('./commands/pins');
 var roll = require('./commands/roll');
-var trump = require('./commands/trump');
+var draft = require('./commands/draft');
 
 var botId = process.env.BOT_ID;
 
 
-var commands = [all, bye, flip, insult, ping, pins, roll, trump];
+var commands = [all, bye, flip, ping, pins, roll, draft];
 
 /**
  * Extracts request message and responds if necessary.
