@@ -1,7 +1,7 @@
 var matcher = /!draft/;
 
 function run(command, request) {
-  var countDownDate = new Date("Aug 23, 2021 19:30:00").getTime();
+  var countDownDate = new Date("Aug 23, 2021 20:30:00 EST").getTime();
 
   var now = new Date().getTime();
   var timeleft = countDownDate - now;
