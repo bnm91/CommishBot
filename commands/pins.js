@@ -33,7 +33,7 @@ var matcher = /!pin(s|\s.*)/;
   return produceImmediateResponse('Usage:\n' +
       '!pins  # list pins\n' +
       '!pin {name}  # view pin\n' +
-      '!pin create {name} {content}  # create pin'\n' +
+      '!pin create {name} {content}  # create pin\n' +
       '!pin delete {name} {content}  # delete pin');
 }
 
