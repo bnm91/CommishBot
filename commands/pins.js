@@ -18,21 +18,23 @@ var matcher = /!pin(s|\s.*)/;
   if (splitCommand.length === 2) {
     // Command to show a pin's value
     return showPin(splitCommand[1].toLowerCase());
-  } 
+  }
   if (splitCommand.length >= 3 && splitCommand[1] === "create") {
     // Command to create a pin
     var content = splitCommand.slice(3).join(' ');
     return createPin(splitCommand[2], content);
-  } 
+  }
   if (splitCommand.length >= 3 && splitCommand[1] === "remove") {
     // Command to remove a pin
     return removePin(splitCommand[2].toLowerCase());
   }
 
   // Some parsing error occured.
-  return produceImmediateResponse('Correct Usage:\n' +
-      '!pins (list pins)\n!pin {name} (view pin)\n' +
-      '!pin {name} {content} (create pin)');
+  return produceImmediateResponse('Usage:\n' +
+      '!pins  # list pins\n'
+      '!pin {name}  # view pin\n' +
+      '!pin create {name} {content}  # create pin'\n' +
+      '!pin delete {name} {content}  # delete pin');
 }
 
 
