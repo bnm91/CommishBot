@@ -24,9 +24,9 @@ var matcher = /!pin(s|\s.*)/;
     var content = splitCommand.slice(3).join(' ');
     return createPin(splitCommand[2], content);
   }
-  if (splitCommand.length >= 3 && splitCommand[1] === "remove") {
-    // Command to remove a pin
-    return removePin(splitCommand[2].toLowerCase());
+  if (splitCommand.length >= 3 && splitCommand[1] === "delete") {
+    // Command to delete a pin
+    return deletePin(splitCommand[2].toLowerCase());
   }
 
   // Some parsing error occured.
@@ -107,9 +107,9 @@ function showPin(pinName) {
 
 
 /**
- * Remove a pin with a given name, otherwise give an appropriate error response.
+ * Delete a pin with a given name, otherwise give an appropriate error response.
  */
- function removePin(pinName) {
+ function deletePin(pinName) {
   return new Promise(function(resolve, reject) {
     try {
       var client = new pg.Client(dbUrl);
