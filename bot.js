@@ -12,7 +12,7 @@ var draft = require("./commands/draft");
 var help = require("./commands/help");
 var scores = require("./commands/scores");
 
-var botId = "process.env.BOT_ID";
+var botId = process.env.BOT_ID;
 
 var commands = [all, bye, flip, ping, pins, roll, draft, scores];
 
