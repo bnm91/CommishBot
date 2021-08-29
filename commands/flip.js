@@ -1,18 +1,10 @@
-var matcher = /!roll(\s.*)/;
+var matcher = /!flip/;
 
 function run(command, request) {
-  var dieSides = '';
-  if (command.length > 5 && command.startsWith('!roll ')) {
-    dieSides = command.slice(5).replace(/\s/g, '');
-    if (isNaN(dieSides)) {
-      var roll = 'roll is not a number';
-    } else{
-      var roll = Math.floor((Math.random() * parseInt(dieSides)) + 1).toString();
-    }
-  }
+  var flip = Math.floor(Math.random() * 2) === 0 ? "heads" : "tails";
   return {
-    'text': roll
-  }
+    text: flip,
+  };
 }
 
 exports.run = run;
