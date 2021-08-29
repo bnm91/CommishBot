@@ -11,10 +11,11 @@ var roll = require("./commands/roll");
 var draft = require("./commands/draft");
 var help = require("./commands/help");
 var scores = require("./commands/scores");
+var insult = require("./commands/insult");
 
 var botId = process.env.BOT_ID;
 
-var commands = [all, bye, flip, ping, pins, roll, draft, scores, help];
+var commands = [all, bye, flip, ping, pins, roll, draft, scores, help, insult];
 
 /**
  * Extracts request message and responds if necessary.

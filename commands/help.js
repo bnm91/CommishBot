@@ -4,7 +4,14 @@ var matcher = /!help/;
 function run(command, request) {
   return {
     text:
-      "Commands:\n" + "!pins\n" + "!all\n" + "!roll\n" + "!flip\n" + "!ping\n",
+      "Commands:\n" +
+      "!pins\n" +
+      "!all\n" +
+      "!roll\n" +
+      "!flip\n" +
+      "!ping\n" +
+      "!insult\n" +
+      "!scores\n",
   };
 }
 
