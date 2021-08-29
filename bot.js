@@ -14,7 +14,7 @@ var scores = require("./commands/scores");
 
 var botId = process.env.BOT_ID;
 
-var commands = [all, bye, flip, ping, pins, roll, draft, scores];
+var commands = [all, bye, flip, ping, pins, roll, draft, scores, help];
 
 /**
  * Extracts request message and responds if necessary.
