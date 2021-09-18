@@ -92,7 +92,7 @@ function run(command, request) {
       ) | 0;
 
     if (dateDiff >= 0) {
-      matchupWeek = dateDiff + 1;
+      matchupWeek = dateDiff;
     }
     return getMatchup(matchupWeek, matchupYear);
   }
