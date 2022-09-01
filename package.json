@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "date-fns": "^2.23.0",
-    "espn-fantasy-football-api": "^0.16.1",
     "express": "^4.17.1",
-    "fantasy-football-nerd": "^1.0.0",
     "pg": "8.7.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.2",
+    "nodemon": "^2.0.19"
   },
   "repository": {
     "type": "git",
@@ -23,8 +25,5 @@
     "heroku",
     "express"
   ],
-  "license": "MIT",
-  "devDependencies": {
-    "nodemon": "^2.0.12"
-  }
+  "license": "MIT"
 }

@@ -3,19 +3,17 @@ var HTTPS = require("https");
 var cached = require("./cached");
 
 var all = require("./commands/all");
-var bye = require("./commands/bye");
 var flip = require("./commands/flip");
 var ping = require("./commands/ping");
 var pins = require("./commands/pins");
 var roll = require("./commands/roll");
 var draft = require("./commands/draft");
 var help = require("./commands/help");
-var scores = require("./commands/scores");
 var insult = require("./commands/insult");
 
 var botId = process.env.BOT_ID;
 
-var commands = [all, bye, flip, ping, pins, roll, draft, scores, help, insult];
+var commands = [all, flip, ping, pins, roll, draft, help, insult];
 
 /**
  * Extracts request message and responds if necessary.
