@@ -88,7 +88,7 @@ function run(command, request) {
     // Weeks between First Tuesday of season until now
     const dateDiff =
       Math.floor(
-        differenceInHours(new Date(), new Date(2021, 7, 31)) / (7 * 24)
+        differenceInHours(new Date(), new Date(2022, 7, 31)) / (7 * 24)
       ) | 0;
 
     if (dateDiff >= 0) {

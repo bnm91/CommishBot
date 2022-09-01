@@ -41,5 +41,9 @@ function run(command, request) {
   });
 }
 
+function encodeQuery(query) {
+  return query.replace(/\s/g, "+");
+}
+
 exports.run = run;
 exports.matcher = matcher;
