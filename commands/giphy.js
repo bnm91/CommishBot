@@ -28,7 +28,7 @@ function run(command, request) {
             resolve(produceResponseObjectForText("Couldn't find a gif 💩"));
           } else {
             var id = JSON.parse(str).data[0].id;
-            var giphyURL = "http://i.giphy.com/" + id + ".gif";
+            var giphyURL = "https://i.giphy.com/" + id + ".gif";
             resolve(produceResponseObjectForText(giphyURL));
           }
         });
