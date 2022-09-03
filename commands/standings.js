@@ -56,7 +56,7 @@ function getStandings(matchupWeek = 3, matchupYear = 2021) {
           }
         });
 
-        return resolve(response);
+        return resolve(produceResponseObjectForText(response));
       })
       .catch((err) => {
         console.error(err);
