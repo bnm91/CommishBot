@@ -79,7 +79,7 @@ function helpMessage() {
 }
 
 function run(command, request) {
-  // const splitCommand = command.split(" ");
+  const splitCommand = command.split(" ");
   matchupYear = 2022;
   let currentWeek = Math.floor(
     differenceInHours(new Date(), new Date(2022, 8, 6)) / (7 * 24)
