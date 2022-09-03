@@ -11,7 +11,10 @@ var draft = require("./commands/draft");
 var help = require("./commands/help");
 var insult = require("./commands/insult");
 var scores = require("./commands/scores");
+var closestScores = require("./commands/closestScores");
+var trophies = require("./commands/trophies");
 var giphy = require("./commands/giphy");
+var standings = require("./commands/standings");
 
 var botId = process.env.BOT_ID;
 
@@ -24,8 +27,11 @@ var commands = [
   draft,
   help,
   scores,
+  closestScores,
   insult,
   giphy,
+  standings,
+  trophies,
 ];
 
 /**

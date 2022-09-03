@@ -11,7 +11,11 @@ function run(command, request) {
       "!flip\n" +
       "!ping\n" +
       "!insult\n" +
-      "!scores\n",
+      "!scores\n" +
+      "!closestScores\n" +
+      "!standings\n" +
+      "!trophies\n" +
+      "!giphy\n",
   };
 }
 

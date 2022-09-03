@@ -1,4 +1,4 @@
-const matcher = /!scores/;
+const matcher = /!closestScores/;
 const { Client } = require("espn-fantasy-football-api/node");
 const {
   produceResponseObjectForText,
@@ -23,9 +23,8 @@ function isGetMatchupByWeekAndYear(splitCommand) {
   );
 }
 
-function getMatchup(matchupWeek, matchupYear) {
-  let response = `Week ${matchupWeek} ${matchupYear} Scoring:\n`;
-  console.log(matchupYear, matchupWeek);
+function getMatchups(matchupWeek = 1, matchupYear = 2022) {
+  let response = `Week ${matchupWeek} ${matchupYear} Closest Scores:\n`;
   return new Promise(function (resolve, reject) {
     const myClient = new Client({
       leagueId: Number.parseInt(process.env.LEAGUE_ID),
@@ -50,10 +49,19 @@ function getMatchup(matchupWeek, matchupYear) {
             (member) => member.id === matchup.awayTeamId
           ).name;
 
-          // Add scores to response
-          response =
-            response +
-            `${homeMemberName}: ${matchup.homeScore} --- ${awayMemberName}: ${matchup.awayScore}\n`;
+          if (matchup.awayTeamId) {
+            const diffScore = matchup.awayScore - matchup.homeScore;
+
+            if (
+              (-16 < diffScore && diffScore <= 0) ||
+              (0 <= diffScore && diffScore < 16)
+            ) {
+              // Add scores to response
+              response =
+                response +
+                `${homeMemberName}: ${matchup.homeScore} --- ${awayMemberName}: ${matchup.awayScore}\n`;
+            }
+          }
         });
         console.log(response);
         return resolve(produceResponseObjectForText(response));
@@ -72,10 +80,10 @@ function getMatchup(matchupWeek, matchupYear) {
 function helpMessage() {
   return produceImmediateResponse(
     "Usage:\n" +
-      "!scores  # list scores of current week\n" +
-      "!scores {week}  # view specific week score in current season\n" +
-      "!scores {week} {year}  # view specific score in specific week\n" +
-      "!scores help # return this message\n"
+      "!closestScores  # list closest scores of current week (within 16 points)\n" +
+      "!closestScores {week}  # view specific week scores in current season\n" +
+      "!closestScores {week} {year}  # view specific score in specific season\n" +
+      "!closestScores help # return this message\n"
   );
 }
 
@@ -83,30 +91,29 @@ function run(command, request) {
   const splitCommand = command.split(" ");
   let matchupYear = 2022;
   let matchupWeek = 1;
-
-  if (command.trim() === "!scores") {
+  if (command.trim() === "!closestScores") {
     // Weeks between First Tuesday of season until now
     const dateDiff =
       Math.floor(
         differenceInHours(new Date(), new Date(2022, 8, 6)) / (7 * 24)
-      ) | 0;
+      ) | 1;
 
     if (dateDiff >= 0) {
       matchupWeek = dateDiff;
     }
-    return getMatchup(matchupWeek, matchupYear);
+    return getMatchups(matchupWeek, matchupYear);
   }
   if (splitCommand.length === 2 && splitCommand[1] === "help") {
     return helpMessage();
   }
   if (isGetMatchupByWeek(splitCommand)) {
     matchupWeek = splitCommand[1];
-    return getMatchup(matchupWeek, matchupYear);
+    return getMatchups(matchupWeek, matchupYear);
   }
   if (isGetMatchupByWeekAndYear(splitCommand)) {
     matchupYear = splitCommand[2];
     matchupWeek = splitCommand[1];
-    return getMatchup(matchupWeek, matchupYear);
+    return getMatchups(matchupWeek, matchupYear);
   }
   return helpMessage();
 }
