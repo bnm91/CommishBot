@@ -14,5 +14,10 @@ function produceResponseObjectForText(text) {
   };
 }
 
+function formatNumber(floatNumber) {
+  return Math.round(floatNumber*100)/100
+}
+
 exports.produceImmediateResponse = produceImmediateResponse;
 exports.produceResponseObjectForText = produceResponseObjectForText;
+exports.formatNumber = formatNumber;

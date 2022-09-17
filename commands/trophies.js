@@ -3,6 +3,7 @@ const { Client } = require("espn-fantasy-football-api/node");
 const {
   produceResponseObjectForText,
   produceImmediateResponse,
+  formatNumber,
 } = require("../helpers/utils");
 const espnMembers = require("../constants/espnMembers").espnMembers;
 const differenceInHours = require("date-fns/differenceInHours");
@@ -101,11 +102,19 @@ function getMatchups(matchupWeek = 1, matchupYear = 2022) {
         });
         let response =
           `Week ${matchupWeek} ${matchupYear} Trophies:\n` +
-          `- Lowest Score with ${lowScore} points: ${lowScoreTeam}\n` +
-          `- Highest Score with ${highScore} points: ${highScoreTeam}\n` +
-          `- ${closeScoreWinner} barely beat ${closeScoreLoser} by a margin of ${closeScore} points\n` +
-          `- ${biggestBlowoutLoser} blown out by ${biggestBlowoutWinner} by a margin of ${biggestBlowout}`;
-
+          `- Lowest Score with ${formatNumber(
+            lowScore
+          )} points: ${lowScoreTeam}\n` +
+          `- Highest Score with ${formatNumber(
+            highScore
+          )} points: ${highScoreTeam}\n` +
+          `- ${closeScoreWinner} barely beat ${closeScoreLoser} by a margin of ${formatNumber(
+            closeScore
+          )} points\n` +
+          `- ${biggestBlowoutLoser} blown out by ${biggestBlowoutWinner} by a margin of ${formatNumber(
+            biggestBlowout
+          )}`;
+        console.log(response);
         return resolve(produceResponseObjectForText(response));
       })
       .catch((err) => {
@@ -132,15 +141,15 @@ function helpMessage() {
 function run(command, request) {
   const splitCommand = command.split(" ");
   let matchupYear = 2022;
-  let matchupWeek = 2;
+  let matchupWeek = 1;
   if (command.trim() === "!trophies") {
     // Weeks between First Tuesday of season until now
     const dateDiff =
       Math.floor(
-        differenceInHours(new Date(), new Date(2022, 8, 6)) / (7 * 24)
+        differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)
       ) | 0;
 
-    if (dateDiff >= 0) {
+    if (dateDiff >= 1) {
       matchupWeek = dateDiff;
     }
     return getMatchups(matchupWeek, matchupYear);

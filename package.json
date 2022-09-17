@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "date-fns": "^2.29.2",
-    "espn-fantasy-football-api": "^0.16.1",
+    "espn-fantasy-football-api": "git+https://github.com/aboorde/ESPN-Fantasy-Football-API.git",
     "express": "^4.17.1",
     "pg": "8.7.1"
   },

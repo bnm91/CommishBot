@@ -15,6 +15,8 @@ var closestScores = require("./commands/closestScores");
 var trophies = require("./commands/trophies");
 var giphy = require("./commands/giphy");
 var standings = require("./commands/standings");
+var activity = require("./commands/activity");
+var power = require("./commands/power");
 
 var botId = process.env.BOT_ID;
 
@@ -32,6 +34,8 @@ var commands = [
   giphy,
   standings,
   trophies,
+  activity,
+  power
 ];
 
 /**

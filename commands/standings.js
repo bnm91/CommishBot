@@ -18,7 +18,9 @@ function isGetStandingsByYear(splitCommand) {
 
 function getStandings(matchupWeek = 3, matchupYear = 2021) {
   let response = `Year ${matchupYear} Standings:\n`;
-  console.log(response);
+  if (matchupYear < 2018) {
+    return produceImmediateResponse("Cant view activity before 2018");
+  }
   return new Promise(function (resolve, reject) {
     const myClient = new Client({
       leagueId: Number.parseInt(process.env.LEAGUE_ID),
@@ -34,28 +36,42 @@ function getStandings(matchupWeek = 3, matchupYear = 2021) {
         scoringPeriodId: Number.parseInt(matchupWeek),
       })
       .then((teams) => {
-        const sortedTeams = [...teams].sort((a, b) => {
-          if (a.finalStandingsPosition < b.finalStandingsPosition) {
-            return -1;
-          }
-          if (a.finalStandingsPosition > b.finalStandingsPosition) {
-            return 1;
-          }
-          return 0;
-        });
+        // console.log("WAT TEAMS", teams)
+        let sortedTeams = []
+        if([...teams][0].finalStandingsPosition === 0) {
+          sortedTeams = [...teams].sort((a, b) => {
+            if (a.playoffSeed < b.playoffSeed) {
+              return -1;
+            }
+            if (a.playoffSeed > b.playoffSeed) {
+              return 1;
+            }
+            return 0;
+          });
+        } else {
+          sortedTeams = [...teams].sort((a, b) => {
+            if (a.finalStandingsPosition < b.finalStandingsPosition) {
+              return -1;
+            }
+            if (a.finalStandingsPosition > b.finalStandingsPosition) {
+              return 1;
+            }
+            return 0;
+          });
+        }
         sortedTeams.forEach((team) => {
           const memberName = espnMembers.find(
             (member) => member.id === team.id
           ).name;
           if (team.finalStandingsPosition === 1) {
-            response += `#${team.finalStandingsPosition} 👑${memberName} (${team.wins}-${team.losses}-${team.ties})👑\n`;
+            response += `#${team.finalStandingsPosition || team.playoffSeed} 👑${memberName} (${team.wins}-${team.losses}-${team.ties})👑\n`;
           } else if (team.finalStandingsPosition === 14) {
-            response += `#${team.finalStandingsPosition} 💩${memberName} (${team.wins}-${team.losses}-${team.ties})💩\n`;
+            response += `#${team.finalStandingsPosition || team.playoffSeed} 💩${memberName} (${team.wins}-${team.losses}-${team.ties})💩\n`;
           } else {
-            response += `#${team.finalStandingsPosition} ${memberName} (${team.wins}-${team.losses}-${team.ties})\n`;
+            response += `#${team.finalStandingsPosition || team.playoffSeed} ${memberName} (${team.wins}-${team.losses}-${team.ties})\n`;
           }
         });
-
+        console.log(response)
         return resolve(produceResponseObjectForText(response));
       })
       .catch((err) => {
@@ -80,22 +96,26 @@ function helpMessage() {
 
 function run(command, request) {
   const splitCommand = command.split(" ");
-  matchupYear = 2022;
-  let currentWeek = Math.floor(
-    differenceInHours(new Date(), new Date(2022, 8, 6)) / (7 * 24)
-  );
-  if (currentWeek < 1) {
-    currentWeek = 1;
+  let matchupYear = 2022;
+  let matchupWeek = 1;
+
+  const dateDiff =
+    Math.floor(
+      differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)
+    ) | 0;
+
+  if (dateDiff >= 1) {
+    matchupWeek = dateDiff;
   }
   if (command.trim() === "!standings") {
-    return getStandings(currentWeek, matchupYear);
+    return getStandings(matchupWeek, matchupYear);
   }
   if (splitCommand.length === 2 && splitCommand[1] === "help") {
     return helpMessage();
   }
   if (isGetStandingsByYear(splitCommand)) {
     const matchupYear = splitCommand[1];
-    return getStandings(currentWeek, matchupYear);
+    return getStandings(matchupWeek, matchupYear);
   }
   return helpMessage();
 }

@@ -24,6 +24,9 @@ function isGetMatchupByWeekAndYear(splitCommand) {
 }
 
 function getMatchup(matchupWeek, matchupYear) {
+  if (matchupYear < 2018) {
+    return produceImmediateResponse("Cant view activity before 2018");
+  }
   let response = `Week ${matchupWeek} ${matchupYear} Scoring:\n`;
   console.log(matchupYear, matchupWeek);
   return new Promise(function (resolve, reject) {
@@ -42,6 +45,7 @@ function getMatchup(matchupWeek, matchupYear) {
         scoringPeriodId: Number.parseInt(matchupWeek),
       })
       .then((matchups) => {
+        console.log(matchups[0].homeRoster[0])
         matchups.forEach((matchup) => {
           const homeMemberName = espnMembers.find(
             (member) => member.id === matchup.homeTeamId
@@ -88,10 +92,10 @@ function run(command, request) {
     // Weeks between First Tuesday of season until now
     const dateDiff =
       Math.floor(
-        differenceInHours(new Date(), new Date(2022, 8, 6)) / (7 * 24)
+        differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)
       ) | 0;
 
-    if (dateDiff >= 0) {
+    if (dateDiff >= 1) {
       matchupWeek = dateDiff;
     }
     return getMatchup(matchupWeek, matchupYear);
