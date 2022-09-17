@@ -3,14 +3,11 @@ require("dotenv").config();
 var bot = require("./bot.js");
 const express = require("express");
 const app = express();
-var power = require("./commands/power");
+
 app.use(express.json());
 
 app.get("/", function (req, res) {
-  // standings.run("!standings 5 2017").then((resp) => {
-  //   res.send(standings.run("!standings 5 2017"));
-  // });
-  res.send(power.run("!power 1 2022"));
+  res.send("CommishBot, reporting for duty.");
 });
 
 app.post("/", function (req, res) {
