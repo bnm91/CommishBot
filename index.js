@@ -10,7 +10,7 @@ app.get("/", function (req, res) {
   res.send("CommishBot, reporting for duty.");
 });
 
-app.post("/", function (req, res) {
+app.post("/groupme", function (req, res) {
   bot.respond(req.body);
 });
 
