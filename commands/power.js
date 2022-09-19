@@ -71,7 +71,7 @@ const twoStepDominance = (X) => {
 }
 
 const powerPoints = (dominance, teams, week) => {
-  let powerPoints = []
+  let powerRanked = []
   const teamTuple = dominance.reduce((acc, curr, idx) => {
     return [...acc, [curr, teams[idx]]]
   }, [])
@@ -81,13 +81,13 @@ const powerPoints = (dominance, teams, week) => {
     const avgScore = slicedScores.reduce((acc,curr) => acc + curr, 0) / week
     const avgMov = slicedMov.reduce((acc,curr) => acc + curr, 0) / week
     const power = decimalPlaces((parseFloat(i)*0.8) + (parseFloat(avgScore) * 0.15) + (parseFloat(avgMov)* 0.05))
-    powerPoints.push(power)
+    powerRanked.push(power)
   })
 
-  const powerTuple = powerPoints.reduce((acc, curr, idx) => {
+  const powerTuple = powerRanked.reduce((acc, curr, idx) => {
     return [...acc, [curr, teams[idx].id]]
   }, [])
-  // console.log(powerPoints)
+  // console.log(powerRanked)
   return powerTuple
 }
 

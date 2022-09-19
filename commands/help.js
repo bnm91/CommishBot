@@ -15,6 +15,8 @@ function run(command, request) {
       "!closestScores\n" +
       "!standings\n" +
       "!trophies\n" +
+      "!power\n" +
+      "!activity\n" +
       "!giphy\n",
   };
 }
