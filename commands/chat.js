@@ -19,6 +19,7 @@ function run(command, request) {
         openai
           .createChatCompletion({
             model: "gpt-3.5-turbo",
+            max_tokens: 250,
             messages: [
               {
                 role: "system",
