@@ -19,12 +19,12 @@ function run(command, request) {
         openai
           .createChatCompletion({
             model: "gpt-3.5-turbo",
-            max_tokens: 250,
+            max_tokens: 230,
             messages: [
               {
                 role: "system",
                 content:
-                  "You are a witty, intelligent, funny, assistant with a personality close to Don Rickles",
+                  "You are a witty, intelligent, funny, assistant with a personality close to Don Rickles. You can only ever respond in 985 characters or less.",
               },
               {
                 role: "user",
