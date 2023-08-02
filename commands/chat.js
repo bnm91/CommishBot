@@ -1,4 +1,8 @@
 const { Configuration, OpenAIApi } = require("openai");
+const {
+  produceResponseObjectForText,
+  produceImmediateResponse,
+} = require("../helpers/utils");
 var matcher = /!chat/;
 
 function run(command, request) {
@@ -8,29 +12,44 @@ function run(command, request) {
     return new Promise(function (resolve, reject) {
       try {
         const configuration = new Configuration({
-          apiKey: process.env.OPENAI_API_KEY,
+          apiKey: process.env.OPEN_API_KEY,
         });
         const openai = new OpenAIApi(configuration);
-        // const completion = await
+
         openai
-          .createCompletion({
+          .createChatCompletion({
             model: "gpt-3.5-turbo",
-            prompt: chatString,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are a witty, intelligent, funny, assistant with a personality close to Don Rickles",
+              },
+              {
+                role: "user",
+                content: chatString,
+              },
+            ],
           })
           .then((completion) => {
-            const responseString = completion.data?.choices[0]?.text
-              ? completion.data.choices[0].text
-              : "Talk to AJ something fucked up";
-            return resolve(produceResponseObjectForText(responseString));
+            const responseString =
+              completion.data?.choices[0]?.message?.content;
+            return resolve(
+              produceResponseObjectForText(
+                responseString || "Talk to AJ something fucked up"
+              )
+            );
+          })
+          .catch((e) => {
+            console.error(e);
+            reject(e);
           });
       } catch (e) {
         reject(e);
       }
     });
   } else {
-    return {
-      text: "How did you get here? Try again.",
-    };
+    return produceImmediateResponse("How did you get here dumb dumb");
   }
 }
 
