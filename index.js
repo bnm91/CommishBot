@@ -1,18 +1,14 @@
 require("dotenv").config();
 
-var bot = require("./bot.js");
+const bot = require("./bot.js");
 const express = require("express");
+
 const app = express();
 app.use(express.json());
 
-app.get("/", function (req, res) {
-  res.send("CommishBot, reporting for duty.");
-});
+app.get("/", (req, res) => res.send("CommishBot, reporting for duty."));
 
-app.post("/groupme", function (req, res) {
-  bot.respond(req.body);
-});
+app.post("/groupme", (req, res) => bot.respond(req.body));
 
-app.listen(process.env.PORT || 5000, function () {
-  console.log("Listening on port 5000...");
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));

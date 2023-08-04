@@ -1,112 +1,88 @@
-var HTTPS = require("https");
+const HTTPS = require("https");
+const botId = process.env.BOT_ID;
 
-var cached = require("./cached");
-
-var all = require("./commands/all");
-var flip = require("./commands/flip");
-var ping = require("./commands/ping");
-var pins = require("./commands/pins");
-var roll = require("./commands/roll");
-var draft = require("./commands/draft");
-var help = require("./commands/help");
-var insult = require("./commands/insult");
-var scores = require("./commands/scores");
-var closestScores = require("./commands/closestScores");
-var trophies = require("./commands/trophies");
-var giphy = require("./commands/giphy");
-var standings = require("./commands/standings");
-var activity = require("./commands/activity");
-var power = require("./commands/power");
-var chat = require("./commands/chat");
-
-var botId = process.env.BOT_ID;
-
-var commands = [
-  all,
-  flip,
-  ping,
-  pins,
-  roll,
-  draft,
-  help,
-  scores,
-  closestScores,
-  insult,
-  giphy,
-  standings,
-  trophies,
-  activity,
-  power,
-  chat,
+const commands = [
+  require("./commands/all"),
+  require("./commands/flip"),
+  require("./commands/ping"),
+  require("./commands/pins"),
+  require("./commands/roll"),
+  require("./commands/draft"),
+  require("./commands/help"),
+  require("./commands/scores"),
+  require("./commands/closestScores"),
+  require("./commands/insult"),
+  require("./commands/giphy"),
+  require("./commands/standings"),
+  require("./commands/trophies"),
+  require("./commands/activity"),
+  require("./commands/power"),
+  require("./commands/chat"),
 ];
 
 /**
  * Extracts request message and responds if necessary.
  */
-function respond(request) {
+const respond = (request) => {
   const message = request.text;
+  let response = null;
 
-  var response = null;
-
-  if (message.charAt(0) == "!") {
-    for (var i = 0; i < commands.length; i++) {
-      command = commands[i];
-      if (message.match(command.matcher) != null) {
-        response = command.run(message, request);
-        break;
-      }
+  if (message.startsWith("!")) {
+    const command = commands.find((command) => message.match(command.matcher));
+    if (command) {
+      response = command.run(message, request);
     }
   }
 
-  send(Promise.resolve(response), this);
-}
+  send(Promise.resolve(response));
+};
 
 /**
  * Send request to GroupMe API to post message on bot's behalf
  * @private
  */
-function send(responsePromise) {
-  responsePromise.then(
-    function (response) {
+const send = (responsePromise) => {
+  responsePromise
+    .then((response) => {
       console.log(
         "about to send message to groupme: " + JSON.stringify(response)
       );
       sendHttpRequest(response);
-    },
-    function (error) {
-      response = {
-        text:
-          "There was an error processing the request: " + JSON.stringify(error),
-      };
-    }
-  );
-}
+    })
+    .catch((error) => {
+      console.error(
+        "There was an error processing the request: " + JSON.stringify(error)
+      );
+    });
+};
 
-function sendHttpRequest(response) {
+const sendHttpRequest = (response) => {
   if (response !== null) {
-    response["bot_id"] = botId;
-    var options = {
+    response.bot_id = botId;
+    const options = {
       hostname: "api.groupme.com",
       path: "/v3/bots/post",
       method: "POST",
     };
 
-    var req = HTTPS.request(options, function (res) {
+    const req = HTTPS.request(options, (res) => {
       if (res.statusCode != 202) {
         console.log("rejecting bad status code " + res.statusCode);
         console.log(res);
       }
     });
 
-    req.on("error", function (err) {
-      console.log("error posting message " + JSON.stringify(err));
-    });
-    req.on("timeout", function (err) {
-      console.log("timeout posting message " + JSON.stringify(err));
-    });
+    req.on("error", (err) =>
+      console.log("error posting message " + JSON.stringify(err))
+    );
+    req.on("timeout", (err) =>
+      console.log("timeout posting message " + JSON.stringify(err))
+    );
 
     req.end(JSON.stringify(response));
   }
-}
+};
 
-exports.respond = respond;
+module.exports = {
+  respond,
+};
