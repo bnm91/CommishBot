@@ -37,8 +37,8 @@ function getStandings(matchupWeek = 3, matchupYear = 2021) {
       })
       .then((teams) => {
         // console.log("WAT TEAMS", teams)
-        let sortedTeams = []
-        if([...teams][0].finalStandingsPosition === 0) {
+        let sortedTeams = [];
+        if ([...teams][0].finalStandingsPosition === 0) {
           sortedTeams = [...teams].sort((a, b) => {
             if (a.playoffSeed < b.playoffSeed) {
               return -1;
@@ -64,14 +64,20 @@ function getStandings(matchupWeek = 3, matchupYear = 2021) {
             (member) => member.id === team.id
           ).name;
           if (team.finalStandingsPosition === 1) {
-            response += `#${team.finalStandingsPosition || team.playoffSeed} 👑${memberName} (${team.wins}-${team.losses}-${team.ties})👑\n`;
+            response += `#${
+              team.finalStandingsPosition || team.playoffSeed
+            } 👑${memberName} (${team.wins}-${team.losses}-${team.ties})👑\n`;
           } else if (team.finalStandingsPosition === 14) {
-            response += `#${team.finalStandingsPosition || team.playoffSeed} 💩${memberName} (${team.wins}-${team.losses}-${team.ties})💩\n`;
+            response += `#${
+              team.finalStandingsPosition || team.playoffSeed
+            } 💩${memberName} (${team.wins}-${team.losses}-${team.ties})💩\n`;
           } else {
-            response += `#${team.finalStandingsPosition || team.playoffSeed} ${memberName} (${team.wins}-${team.losses}-${team.ties})\n`;
+            response += `#${
+              team.finalStandingsPosition || team.playoffSeed
+            } ${memberName} (${team.wins}-${team.losses}-${team.ties})\n`;
           }
         });
-        console.log(response)
+        console.log(response);
         return resolve(produceResponseObjectForText(response));
       })
       .catch((err) => {
@@ -100,9 +106,8 @@ function run(command, request) {
   let matchupWeek = 1;
 
   const dateDiff =
-    Math.floor(
-      differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)
-    ) | 0;
+    Math.floor(differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)) |
+    0;
 
   if (dateDiff >= 1) {
     matchupWeek = dateDiff;

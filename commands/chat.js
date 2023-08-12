@@ -3,10 +3,10 @@ const {
   produceResponseObjectForText,
   produceImmediateResponse,
 } = require("../helpers/utils");
-var matcher = /!chat/;
+const matcher = /!chat/;
 
 function run(command, request) {
-  var chatString = command.split(" ").slice(1).join(" ");
+  const chatString = command.split(" ").slice(1).join(" ");
 
   if (chatString.length) {
     return new Promise(function (resolve, reject) {
@@ -24,7 +24,7 @@ function run(command, request) {
               {
                 role: "system",
                 content:
-                  "You are a short, curt, witty, funny, assistant with an insult comedian personality. You can only ever respond in 950 characters or less.",
+                  "You are a helpful AI assistant to a fantasy football chatroom. You can only ever respond in 950 characters or less.",
               },
               {
                 role: "user",

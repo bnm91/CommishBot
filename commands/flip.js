@@ -1,7 +1,7 @@
-var matcher = /!flip/;
+const matcher = /!flip/;
 
 function run(command, request) {
-  var flip = Math.floor(Math.random() * 2) === 0 ? "heads" : "tails";
+  const flip = Math.floor(Math.random() * 2) === 0 ? "heads" : "tails";
   return {
     text: flip,
   };

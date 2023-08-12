@@ -45,7 +45,7 @@ function getMatchup(matchupWeek, matchupYear) {
         scoringPeriodId: Number.parseInt(matchupWeek),
       })
       .then((matchups) => {
-        console.log(matchups[0].homeRoster[0])
+        console.log(matchups[0].homeRoster[0]);
         matchups.forEach((matchup) => {
           const homeMemberName = espnMembers.find(
             (member) => member.id === matchup.homeTeamId

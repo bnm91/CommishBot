@@ -1,10 +1,10 @@
-var cached = require('../cached');
+const cached = require("../cached");
 
-var matcher = /!all(\s.*)/;
+const matcher = /!all(\s.*)/;
 
 function run(command, request) {
-  var messageToAll = '';
-  if (command.length > 4 && command.startsWith('!all ')) {
+  let messageToAll = "";
+  if (command.length > 4 && command.startsWith("!all ")) {
     messageToAll = command.slice(4);
   }
 
@@ -15,14 +15,14 @@ function run(command, request) {
   }
 
   return {
-    'text' : '@all' + messageToAll,
-    'attachments': [
+    text: "@all" + messageToAll,
+    attachments: [
       {
-        'loci': Array(userIds.length).fill([0, 4]),
-        'type': 'mentions',
-        'user_ids': userIds
-      }
-    ]
+        loci: Array(userIds.length).fill([0, 4]),
+        type: "mentions",
+        user_ids: userIds,
+      },
+    ],
   };
 }
 
