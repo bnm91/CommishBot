@@ -49,13 +49,11 @@ async function sendHttpRequest(response) {
 
   const res = await fetch(url, options);
 
-  if (res.status !== 202) {
+  if (res && res.status !== 202) {
     const error = new Error(`rejecting bad status code ${res.status}`);
     console.error(error);
     throw error;
   }
-
-  return res.json(); // or res.text() if you don't expect JSON response
 }
 
 module.exports = {
