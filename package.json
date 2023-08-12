@@ -11,6 +11,7 @@
     "date-fns": "^2.29.2",
     "espn-fantasy-football-api": "git+https://github.com/aboorde/ESPN-Fantasy-Football-API.git",
     "express": "^4.17.1",
+    "node-fetch": "^2.6.12",
     "openai": "^3.3.0",
     "pg": "8.7.1"
   },
