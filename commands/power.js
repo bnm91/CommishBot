@@ -95,7 +95,7 @@ const powerPoints = (dominance, teams, week) => {
   return powerTuple;
 };
 
-function getPower(matchupWeek = 1, matchupYear = 2022) {
+function getPower(matchupWeek = 1, matchupYear = 2023) {
   if (matchupYear < 2018) {
     return produceImmediateResponse("Cant view activity before 2018");
   }
@@ -193,11 +193,11 @@ function helpMessage() {
 
 function run(command, request) {
   const splitCommand = command.split(" ");
-  let matchupYear = 2022;
+  let matchupYear = 2023;
   let matchupWeek = 1;
 
   const dateDiff =
-    Math.floor(differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)) |
+    Math.floor(differenceInHours(new Date(), new Date(2023, 8, 1)) / (7 * 24)) |
     0;
 
   if (dateDiff >= 1) {

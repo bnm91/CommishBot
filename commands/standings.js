@@ -16,7 +16,7 @@ function isGetStandingsByYear(splitCommand) {
   );
 }
 
-function getStandings(matchupWeek = 3, matchupYear = 2021) {
+function getStandings(matchupWeek = 3, matchupYear = 2023) {
   let response = `Year ${matchupYear} Standings:\n`;
   if (matchupYear < 2018) {
     return produceImmediateResponse("Cant view activity before 2018");
@@ -102,11 +102,11 @@ function helpMessage() {
 
 function run(command, request) {
   const splitCommand = command.split(" ");
-  let matchupYear = 2022;
+  let matchupYear = 2023;
   let matchupWeek = 1;
 
   const dateDiff =
-    Math.floor(differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)) |
+    Math.floor(differenceInHours(new Date(), new Date(2023, 8, 1)) / (7 * 24)) |
     0;
 
   if (dateDiff >= 1) {

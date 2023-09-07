@@ -24,7 +24,7 @@ function isGetMatchupByWeekAndYear(splitCommand) {
   );
 }
 
-function getMatchups(matchupWeek = 1, matchupYear = 2022) {
+function getMatchups(matchupWeek = 1, matchupYear = 2023) {
   let lowScore = 9999;
   let lowScoreTeam = "";
   let highScore = -1;

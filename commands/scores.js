@@ -85,14 +85,14 @@ function helpMessage() {
 
 function run(command, request) {
   const splitCommand = command.split(" ");
-  let matchupYear = 2022;
+  let matchupYear = 2023;
   let matchupWeek = 1;
 
   if (command.trim() === "!scores") {
     // Weeks between First Tuesday of season until now
     const dateDiff =
       Math.floor(
-        differenceInHours(new Date(), new Date(2022, 8, 1)) / (7 * 24)
+        differenceInHours(new Date(), new Date(2023, 8, 1)) / (7 * 24)
       ) | 0;
 
     if (dateDiff >= 1) {

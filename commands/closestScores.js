@@ -23,7 +23,7 @@ function isGetMatchupByWeekAndYear(splitCommand) {
   );
 }
 
-function getMatchups(matchupWeek = 1, matchupYear = 2022) {
+function getMatchups(matchupWeek = 1, matchupYear = 2023) {
   let response = `Week ${matchupWeek} ${matchupYear} Closest Scores:\n`;
   return new Promise(function (resolve, reject) {
     const myClient = new Client({
@@ -89,13 +89,13 @@ function helpMessage() {
 
 function run(command, request) {
   const splitCommand = command.split(" ");
-  let matchupYear = 2022;
+  let matchupYear = 2023;
   let matchupWeek = 1;
   if (command.trim() === "!closestScores") {
     // Weeks between First Tuesday of season until now
     const dateDiff =
       Math.floor(
-        differenceInHours(new Date(), new Date(2022, 8, 6)) / (7 * 24)
+        differenceInHours(new Date(), new Date(2023, 8, 6)) / (7 * 24)
       ) | 1;
 
     if (dateDiff >= 0) {
