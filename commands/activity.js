@@ -38,7 +38,7 @@ function getActivity() {
 
     myClient
       .getRecentActivity({
-        seasonId: 2022,
+        seasonId: 2023,
       })
       .then((data) => {
         const yesterday = new Date(
